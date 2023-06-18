@@ -12,7 +12,9 @@ function App(): JSX.Element {
       <SafeAreaView>
         <Text preset="headingLarge">CoffStack</Text>
         <Button preset="primary" title="Acessar" marginBottom="s12" />
-        <Button preset="outline" title="Acessar" />
+        <Button preset="primary" disabled title="Acessar" marginBottom="s12" />
+        <Button preset="outline" title="Acessar" marginBottom="s12" />
+        <Button preset="outline" disabled title="Acessar" marginBottom="s12" />
       </SafeAreaView>
     </ThemeProvider>
   );
