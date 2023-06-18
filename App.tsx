@@ -10,8 +10,9 @@ function App(): JSX.Element {
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaView>
-        <Text preset="headingLarge">hello world</Text>
-        <Button title="Acessar" />
+        <Text preset="headingLarge">CoffStack</Text>
+        <Button preset="primary" title="Acessar" marginBottom="s12" />
+        <Button preset="outline" title="Acessar" />
       </SafeAreaView>
     </ThemeProvider>
   );
