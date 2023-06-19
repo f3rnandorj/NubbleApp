@@ -28,6 +28,7 @@ export const buttonPresets: Record<
       content: 'gray2',
     },
   },
+
   outline: {
     default: {
       container: {
