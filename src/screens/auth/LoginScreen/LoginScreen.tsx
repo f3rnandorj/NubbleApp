@@ -3,8 +3,8 @@ import React from 'react';
 import {Text} from '../../../components/Text/Text';
 import {Button} from '../../../components/Button/Button';
 import {TextInput} from '../../../components/TextInput/TextInput';
-import {Icon} from '../../../components/Icon/Icon';
 import {Screen} from '../../../components/Screen/Screen';
+import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
 
 export function LoginScreen() {
   return (
@@ -23,12 +23,7 @@ export function LoginScreen() {
         boxProps={{mb: 's20'}}
       />
 
-      <TextInput
-        label="Senha"
-        placeholder="Digite sua senha"
-        RightComponent={<Icon name="eyeOff" color="gray2" />}
-        boxProps={{mb: 's10'}}
-      />
+      <PasswordInput label="Senha" placeholder="Digite sua senha" />
 
       <Text preset="paragraphSmall" color="primary" bold>
         Esqueci minha senha
