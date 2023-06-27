@@ -1,9 +1,7 @@
 import React from 'react';
+
+import {PasswordInput, PasswordInputProps} from '@components';
 import {Controller, UseControllerProps, FieldValues} from 'react-hook-form';
-import {
-  PasswordInput,
-  PasswordInputProps,
-} from '../PasswordInput/PasswordInput';
 
 export function FormPasswordInput<FormType extends FieldValues>({
   control,
