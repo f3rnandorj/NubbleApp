@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {Screen, Text, Button, Icon} from '@components';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '@routes';
+import {AuthScreenProps} from '@routes';
 
-type ScreenProps = NativeStackScreenProps<RootStackParamList, 'SuccessScreen'>;
-
-export function SuccessScreen({navigation, route}: ScreenProps) {
+export function SuccessScreen({
+  navigation,
+  route,
+}: AuthScreenProps<'SuccessScreen'>) {
   const {title, description, icon} = route.params;
 
   function goBackToBegin() {

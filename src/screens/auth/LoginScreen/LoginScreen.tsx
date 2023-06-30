@@ -8,15 +8,12 @@ import {
   FormPasswordInput,
 } from '@components';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '@routes';
+import {AuthScreenProps} from '@routes';
 import {useForm} from 'react-hook-form';
 
 import {loginSchema, LoginSchema} from './loginSchema';
 
-type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>;
-
-export function LoginScreen({navigation}: ScreenProps) {
+export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
   const {control, formState, handleSubmit} = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -37,6 +34,7 @@ export function LoginScreen({navigation}: ScreenProps) {
   function navigateToForgotPasswordScreen() {
     navigation.navigate('ForgotPasswordScreen');
   }
+
   return (
     <Screen>
       <Text marginBottom="s8" preset="headingLarge">
