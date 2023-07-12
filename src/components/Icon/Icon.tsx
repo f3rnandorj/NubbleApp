@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable} from 'react-native';
+import {Pressable, PressableProps} from 'react-native';
 
 import {useAppTheme} from '@hooks';
 import {ThemeColors} from '@theme';
@@ -39,7 +39,7 @@ export interface IconBase {
   color?: string;
 }
 
-export interface IconProps {
+export interface IconProps extends PressableProps {
   name: IconName;
   color?: ThemeColors;
   size?: number;
@@ -51,13 +51,14 @@ export function Icon({
   color = 'backgroundContrast',
   size,
   onPress,
+  ...pressableProps
 }: IconProps) {
   const {colors} = useAppTheme();
   const SVGIcon = iconRegistry[name];
 
   if (onPress) {
     return (
-      <Pressable hitSlop={10} onPress={onPress}>
+      <Pressable hitSlop={10} onPress={onPress} {...pressableProps}>
         <SVGIcon color={colors[color]} size={size} />
       </Pressable>
     );
