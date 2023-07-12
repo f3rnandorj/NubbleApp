@@ -1,5 +1,8 @@
 import React from 'react';
 
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
+
 import {
   Screen,
   FormTextInput,
@@ -7,9 +10,7 @@ import {
   Text,
   FormPasswordInput,
 } from '@components';
-import {zodResolver} from '@hookform/resolvers/zod';
 import {AuthScreenProps} from '@routes';
-import {useForm} from 'react-hook-form';
 
 import {loginSchema, LoginSchema} from './loginSchema';
 

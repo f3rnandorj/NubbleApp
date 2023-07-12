@@ -1,10 +1,11 @@
 import React from 'react';
 
-import {Button, Text, Screen, FormTextInput} from '@components';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
+
+import {Button, Text, Screen, FormTextInput} from '@components';
 import {useResetNavigationSuccess} from '@hooks';
 import {AuthScreenProps} from '@routes';
-import {useForm} from 'react-hook-form';
 
 import {
   forgotPasswordSchema,

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {IconProps} from '@components';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import {IconProps} from '@components';
 import {
   ForgotPasswordScreen,
   LoginScreen,

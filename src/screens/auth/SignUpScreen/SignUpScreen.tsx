@@ -1,5 +1,8 @@
 import React from 'react';
 
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
+
 import {
   Button,
   FormPasswordInput,
@@ -7,10 +10,8 @@ import {
   Screen,
   Text,
 } from '@components';
-import {zodResolver} from '@hookform/resolvers/zod';
 import {useResetNavigationSuccess} from '@hooks';
 import {AuthScreenProps} from '@routes';
-import {useForm} from 'react-hook-form';
 
 import {SignUpSchema, signUpSchema} from './signUpSchema';
 

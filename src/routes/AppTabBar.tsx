@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+
 import {
   Box,
   TouchableOpacityBox,
@@ -10,7 +12,6 @@ import {
   BoxProps,
 } from '@components';
 import {useAppSafeArea} from '@hooks';
-import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {$shadowProps} from '@theme';
 
 import {AppTabBottomTabParamList} from './AppTabNavigator';

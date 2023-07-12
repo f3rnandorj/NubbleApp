@@ -21,7 +21,7 @@ module.exports = {
                 position: 'before',
               },
               {
-                pattern: '@+(routes|screens|components|hooks|theme',
+                pattern: '@+(domain|routes|screens|components|hooks|theme)',
                 group: 'internal',
                 position: 'before',
               },

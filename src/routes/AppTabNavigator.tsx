@@ -4,6 +4,7 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
+
 import {AppTabBar} from '@routes';
 import {
   FavoriteScreen,
