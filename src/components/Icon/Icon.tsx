@@ -17,6 +17,7 @@ import {CheckIcon} from '../../assets/icons/CheckIcon';
 import {CheckRoundIcon} from '../../assets/icons/CheckRoundIcon';
 import {ChevronRightIcon} from '../../assets/icons/ChevronRightIcon';
 import {CommentIcon} from '../../assets/icons/CommentIcon';
+import {ErrorRoundIcon} from '../../assets/icons/ErroRoundIcon';
 import {EyeOffIcon} from '../../assets/icons/EyeOffIcon';
 import {EyeOnIcon} from '../../assets/icons/EyeOnIcon';
 import {FlashOffIcon} from '../../assets/icons/FlashOffIcon';
@@ -79,6 +80,7 @@ const iconRegistry = {
   chatOn: ChatOnIcon,
   check: CheckIcon,
   checkRound: CheckRoundIcon,
+  errorRound: ErrorRoundIcon,
   comment: CommentIcon,
   chevronRight: ChevronRightIcon,
   eyeOn: EyeOnIcon,
