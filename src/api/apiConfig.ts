@@ -1,10 +1,14 @@
+import {Platform} from 'react-native';
+
 import {USER_IP} from '@env';
 import axios from 'axios';
 
+const baseUrl = Platform.OS === 'android' ? `${USER_IP}` : 'localhost';
+
 export const api = axios.create({
-  baseURL: `http://${USER_IP}:3333/`,
+  baseURL: `http://${baseUrl}:3333/`,
   headers: {
     Authorization:
-      'Bearer Ng.323X1yzO9KxcXSLDsKMglLFNzlk4Ccmxd6n8IRT8kszbghKJ7aVKsnc9Yd4m',
+      'Bearer MQ.AxdpwSIh7NUiUs5tRnh97YUP2Entrzus1EW852vAZMEEpTgaecAVwq3yZIsj',
   },
 });
