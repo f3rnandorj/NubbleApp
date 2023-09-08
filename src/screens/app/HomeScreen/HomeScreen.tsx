@@ -17,7 +17,13 @@ import {HomeEmpty} from './components/HomeEmpty';
 import {HomeHeader} from './components/HomeHeader';
 
 export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
-  const {refresh, postList, loading, error, fetchNextPage} = usePostList();
+  const {
+    refresh,
+    list: postList,
+    loading,
+    error,
+    fetchNextPage,
+  } = usePostList();
 
   const flatListRef = useRef<FlatList<Post>>(null);
   useScrollToTop(flatListRef);
@@ -30,7 +36,7 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
     <Screen style={$screen}>
       <FlatList
         ref={flatListRef}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         data={postList}
         renderItem={rederItem}
         showsVerticalScrollIndicator={false}
