@@ -18,8 +18,7 @@ export function PostCommentScreen({
   const {postId} = route.params;
   const {postAuthorId} = route.params;
 
-  const {list, fetchNextPage, hasNextPage, refresh} =
-    usePostCommentList(postId);
+  const {list, fetchNextPage, hasNextPage} = usePostCommentList(postId);
 
   const {id} = useUser();
 
@@ -28,8 +27,8 @@ export function PostCommentScreen({
   function renderItem({item}: ListRenderItemInfo<PostComment>) {
     return (
       <PostCommentItem
+        postId={postId}
         postComment={item}
-        onRemoveComment={refresh}
         userId={id}
         userAuthorId={postAuthorId}
       />
@@ -51,7 +50,7 @@ export function PostCommentScreen({
             />
           }
         />
-        <PostCommentTextMessage postId={postId} onAddComment={refresh} />
+        <PostCommentTextMessage postId={postId} />
       </Box>
     </Screen>
   );

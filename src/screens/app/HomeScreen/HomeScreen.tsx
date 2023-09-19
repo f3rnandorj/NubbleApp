@@ -20,8 +20,8 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
   const {
     refresh,
     list: postList,
-    loading,
-    error,
+    isLoading,
+    isError,
     fetchNextPage,
   } = usePostList();
 
@@ -43,13 +43,13 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
         contentContainerStyle={{flex: postList.length === 0 ? 1 : undefined}}
         onEndReached={fetchNextPage}
         onEndReachedThreshold={0.1}
-        refreshing={loading}
+        refreshing={isLoading}
         ListHeaderComponent={<HomeHeader />}
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={refresh} />
+          <RefreshControl refreshing={isLoading} onRefresh={refresh} />
         }
         ListEmptyComponent={
-          <HomeEmpty error={error} loading={loading} refetch={refresh} />
+          <HomeEmpty error={isError} loading={isLoading} refetch={refresh} />
         }
       />
     </Screen>
