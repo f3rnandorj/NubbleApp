@@ -1,7 +1,11 @@
 import React from 'react';
-import {ActivityIndicator} from 'react-native';
 
-import {TouchableOpacityBox, TouchableOpacityBoxProps, Text} from '@components';
+import {
+  TouchableOpacityBox,
+  TouchableOpacityBoxProps,
+  Text,
+  ActivityIndicator,
+} from '@components';
 
 import {buttonPresets} from './ButtonPresets';
 

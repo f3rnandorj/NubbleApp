@@ -14,9 +14,9 @@ function toPost(postAPI: PostAPI): Post {
       userName: postAPI.user.username,
     },
     imageURL: postAPI.image_url,
-    reactionCount: Number(postAPI.meta.like_count),
-    commentCount: Number(postAPI.meta.comments_count),
-    favoriteCount: Number(postAPI.meta.favorite_count),
+    reactionCount: parseInt(postAPI.meta.like_count, 10),
+    commentCount: parseInt(postAPI.meta.comments_count, 10),
+    favoriteCount: parseInt(postAPI.meta.favorite_count, 10),
   };
 }
 
