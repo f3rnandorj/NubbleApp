@@ -15,10 +15,13 @@ type InterceptorProps = {
   saveCredentials: (ac: AuthCredentials) => Promise<void>;
 };
 
-const baseUrl = Platform.OS === 'android' ? `${USER_IP}` : 'localhost';
+export const BASE_URL =
+  Platform.OS === 'android'
+    ? `http://${USER_IP}:3333/`
+    : 'http://localhost:3333/';
 
 export const api = axios.create({
-  baseURL: `http://${baseUrl}:3333/`,
+  baseURL: BASE_URL,
 });
 
 export function registerInterceptor({

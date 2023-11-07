@@ -9,7 +9,7 @@ import {PostComment, postCommentService, usePostCommentRemove} from '@domain';
 interface Props {
   postId: number;
   postComment: PostComment;
-  userId: number;
+  userId: number | null;
   userAuthorId: number;
 }
 
@@ -49,7 +49,10 @@ export function PostCommentItem({
   }
 
   return (
-    <Pressable disabled={!isAllowToDelete} onLongPress={confirmRemove}>
+    <Pressable
+      testID="post-comment-id"
+      disabled={!isAllowToDelete}
+      onLongPress={confirmRemove}>
       <Box flexDirection="row" alignItems="center" mb="s16">
         <ProfileAvatar imageURL={postComment.author.profileUrl} />
 

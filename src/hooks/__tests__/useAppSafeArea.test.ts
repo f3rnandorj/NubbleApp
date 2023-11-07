@@ -5,7 +5,6 @@ import {theme} from '@theme';
 
 import {useAppSafeArea} from '../useAppSafeArea';
 
-jest.mock('react-native-safe-area-context');
 const mockedUseAppSafeArea = jest.mocked(useSafeAreaInsets);
 
 describe('useAppSafeArea', () => {
