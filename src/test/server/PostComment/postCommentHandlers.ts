@@ -1,4 +1,5 @@
 import {PageApi} from '@api';
+import {cloneDeep} from 'lodash';
 import {http, HttpResponse} from 'msw';
 
 import {PostCommentApi, POST_COMMENT_PATH} from '@domain';
@@ -7,7 +8,11 @@ import {mockedData} from './mocks';
 
 const FULL_URL = `http://localhost:3333/${POST_COMMENT_PATH}`;
 
-let inMemoryResponse = {...mockedData.mockedPostCommentResponse};
+let inMemoryResponse = cloneDeep(mockedData.mockedPostCommentResponse);
+
+export function resetInMemoryResponse() {
+  inMemoryResponse = cloneDeep(mockedData.mockedPostCommentResponse);
+}
 
 export const postCommentHandlers = [
   http.get(FULL_URL, async () => {
@@ -40,6 +45,21 @@ export const postCommentHandlers = [
       };
 
       return HttpResponse.json(newPostCommentAPI, {status: 201});
+    },
+  ),
+
+  http.delete<{postCommentId: string}>(
+    `${FULL_URL}/:postCommentId`,
+    async ({params}) => {
+      inMemoryResponse.data = inMemoryResponse.data.filter(
+        item => item.id.toString() !== params.postCommentId,
+      );
+      inMemoryResponse.meta = {
+        ...inMemoryResponse.meta,
+        total: inMemoryResponse.meta.total - 1,
+      };
+
+      return HttpResponse.json({message: 'removed'}, {status: 200});
     },
   ),
 ];
