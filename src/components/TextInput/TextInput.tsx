@@ -1,6 +1,5 @@
 import React, {useRef} from 'react';
 import {
-  Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
   TextStyle,
@@ -8,12 +7,13 @@ import {
 
 import {useAppTheme} from '@hooks';
 
-import {Box, BoxProps} from '../Box/Box';
+import {Box, BoxProps, PressableBox} from '../Box/Box';
 import {$fontFamily, $fontSizes, Text} from '../Text/Text';
 
 export interface TextInputProps extends RNTextInputProps {
-  label: string;
+  label?: string;
   errorMessage?: string;
+  LeftComponent?: React.ReactElement;
   RightComponent?: React.ReactElement;
   boxProps?: BoxProps;
 }
@@ -21,6 +21,7 @@ export interface TextInputProps extends RNTextInputProps {
 export function TextInput({
   label,
   errorMessage,
+  LeftComponent,
   RightComponent,
   boxProps,
   ...rnTextInputProps
@@ -41,12 +42,19 @@ export function TextInput({
   }
 
   return (
-    <Box {...boxProps}>
-      <Pressable onPress={focusInput}>
-        <Text preset="paragraphMedium" marginBottom="s4">
-          {label}
-        </Text>
+    <Box flexGrow={1} flexShrink={1} {...boxProps}>
+      <PressableBox onPress={focusInput}>
+        {label && (
+          <Text preset="paragraphMedium" marginBottom="s4">
+            {label}
+          </Text>
+        )}
         <Box {...$textInputContainer}>
+          {LeftComponent && (
+            <Box justifyContent="center" mr="s16">
+              {LeftComponent}
+            </Box>
+          )}
           <RNTextInput
             autoCapitalize="none"
             ref={inputRef}
@@ -66,7 +74,7 @@ export function TextInput({
             {errorMessage}
           </Text>
         )}
-      </Pressable>
+      </PressableBox>
     </Box>
   );
 }

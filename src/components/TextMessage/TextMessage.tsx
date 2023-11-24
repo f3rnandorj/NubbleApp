@@ -1,6 +1,5 @@
 import React, {useRef} from 'react';
 import {
-  Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
 } from 'react-native';
@@ -8,7 +7,7 @@ import {
 import {$textInputStyle} from '@components';
 import {useAppTheme} from '@hooks';
 
-import {Box} from '../Box/Box';
+import {Box, PressableBox} from '../Box/Box';
 import {Text} from '../Text/Text';
 
 interface TextMessageProps extends RNTextInputProps {
@@ -31,7 +30,7 @@ export function TextMessage({
   const sendIsDisabled = value?.trim().length === 0;
 
   return (
-    <Pressable onPressIn={focusInput}>
+    <PressableBox onPressIn={focusInput}>
       <Box
         flexDirection="row"
         justifyContent="space-between"
@@ -48,14 +47,14 @@ export function TextMessage({
           {...rnTextInputProps}
         />
 
-        <Pressable
+        <PressableBox
           disabled={sendIsDisabled}
           onPress={() => onPressSend(value || '')}>
           <Text color={sendIsDisabled ? 'gray2' : 'primary'} bold>
             Enviar
           </Text>
-        </Pressable>
+        </PressableBox>
       </Box>
-    </Pressable>
+    </PressableBox>
   );
 }

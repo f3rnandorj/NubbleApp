@@ -1,9 +1,9 @@
 import React from 'react';
-import {Alert, Pressable} from 'react-native';
+import {Alert} from 'react-native';
 
 import {useToastService} from '@services';
 
-import {Box, ProfileAvatar, Text} from '@components';
+import {Box, ProfileAvatar, Text, PressableBox} from '@components';
 import {PostComment, postCommentService, usePostCommentRemove} from '@domain';
 
 interface Props {
@@ -49,7 +49,7 @@ export function PostCommentItem({
   }
 
   return (
-    <Pressable
+    <PressableBox
       testID="post-comment-id"
       disabled={!isAllowToDelete}
       onLongPress={confirmRemove}>
@@ -65,6 +65,6 @@ export function PostCommentItem({
           </Text>
         </Box>
       </Box>
-    </Pressable>
+    </PressableBox>
   );
 }

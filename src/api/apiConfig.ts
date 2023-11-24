@@ -39,12 +39,8 @@ export function registerInterceptor({
       const isRefreshTokenRequest =
         authService.isRefreshTokenRequest(failedRequest);
 
-      if (status === 401 && failedRequest) {
-        if (
-          hasNotRefreshToken ||
-          isRefreshTokenRequest ||
-          failedRequest.sent === true
-        ) {
+      if (status === 401) {
+        if (hasNotRefreshToken || isRefreshTokenRequest || failedRequest.sent) {
           removeCredentials();
           return Promise.reject(responseError);
         }
@@ -66,5 +62,6 @@ export function registerInterceptor({
     },
   );
 
+  //remove listener
   return () => api.interceptors.response.eject(interceptor);
 }

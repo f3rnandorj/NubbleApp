@@ -3,9 +3,10 @@ import React from 'react';
 import {Box} from '@components';
 import {Post} from '@domain';
 
+import {ProfileUser} from '../ProfileUser/ProfileUser';
+
 import {PostAction} from './components/PostAction';
 import {PostBottom} from './components/PostBottom';
-import {PostHeader} from './components/PostHeader';
 import {PostImage} from './components/PostImage';
 
 interface Props {
@@ -15,7 +16,13 @@ interface Props {
 export function PostItem({post}: Props) {
   return (
     <Box marginBottom="s24" paddingHorizontal="s24">
-      <PostHeader author={post.author} />
+      <ProfileUser
+        user={{
+          id: post.id,
+          profileUrl: post.author.profileURL,
+          username: post.author.userName,
+        }}
+      />
       <PostImage imageURL={post.imageURL} />
       <PostAction
         commentCount={post.commentCount}
