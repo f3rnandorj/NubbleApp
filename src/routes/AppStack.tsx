@@ -25,10 +25,14 @@ export type AppStackParamList = {
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
-export function AppStack() {
+interface Props {
+  initialRouteName?: keyof AppStackParamList;
+}
+
+export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
   return (
     <Stack.Navigator
-      initialRouteName="AppTabNavigator"
+      initialRouteName={initialRouteName}
       screenOptions={{
         headerShown: false,
         fullScreenGestureEnabled: true,

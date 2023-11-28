@@ -2,8 +2,7 @@ import React from 'react';
 import {Alert, AlertButton} from 'react-native';
 
 import {authCredentialsStorage} from '@services';
-import {server, resetInMemoryResponse} from '@test';
-import {mockedPostComment} from '@test';
+import {server, mockedPostComment, resetInMemoryResponse} from '@test';
 import {
   act,
   fireEvent,
@@ -23,16 +22,16 @@ beforeAll(() => {
 afterEach(() => {
   server.resetHandlers();
   resetInMemoryResponse();
-  jest.useRealTimers();
 });
 
 afterAll(() => {
   server.close();
   jest.resetAllMocks();
+  jest.useRealTimers();
 });
 
-describe('integration: PostCommentScreenshots', () => {
-  test('when ADDING a comment the list is automatically updated', async () => {
+describe('integration: PostCommentScreen', () => {
+  test('When ADDING a comment, the list is automatically updated', async () => {
     renderScreen(
       <PostCommentScreen
         navigation={{} as any}
@@ -51,21 +50,25 @@ describe('integration: PostCommentScreenshots', () => {
 
     expect(comment).toBeTruthy();
 
-    //passo a passo do que e feito pelo usuário
-    //achar o campo de input
+    // achar o campo de input
     const inputText = screen.getByPlaceholderText(/Adicione um comentário/i);
-    //digitar a mensagem
+
+    // digitar a mensagem
     fireEvent.changeText(inputText, 'novo comentário');
-    //pressionar em enviar
+
+    // clicar em enviar
     fireEvent.press(screen.getByText(/enviar/i));
-    //lista atualizar com o novo comentário
-    const newComment = await screen.findByText(/novo comentário/);
+
+    //espera: a lista atualizada com o novo comentário
+    const newComment = await screen.findByText(/novo comentário/i);
     expect(newComment).toBeTruthy();
 
     const comments = await screen.findAllByTestId('post-comment-id');
+
     expect(comments.length).toBe(3);
   });
-  test('when DELETING a comment the list is automatically updated and a toast message is displayed', async () => {
+
+  test('When DELETING a comment, the list is automatically updated and a toast message is displayed ', async () => {
     jest
       .spyOn(authCredentialsStorage, 'get')
       .mockResolvedValue(mockedPostComment.mateusAuthCredentials);
@@ -93,22 +96,24 @@ describe('integration: PostCommentScreenshots', () => {
       />,
     );
 
-    //esperar a lista carregar
-    //identificar o comentário que será deletado
-    const commentElement = await screen.findByText(
+    // esperar a lista carregar
+    // identificar o comentário que será deletado
+    const comment = await screen.findByText(
       mockedPostComment.mateusPostCommentAPI.message,
       {exact: false},
     );
-    expect(commentElement).toBeTruthy();
 
-    //long press no comentário
-    fireEvent(commentElement, 'longPress');
+    expect(comment).toBeTruthy();
+
+    // long press no comentário
+    fireEvent(comment, 'longPress');
+
     expect(mockedAlert).toHaveBeenCalled();
 
-    //pressionar em "confirmar" no alert
+    // pressionar em "confirmar" no alert
     mockedConfirm && mockedConfirm();
 
-    //verificar se a lista foi atualizada (comentário sumiu?)
+    // verificar se a list foi atualizada (meu comentário sumiu)
     await waitForElementToBeRemoved(() =>
       screen.getByText(mockedPostComment.mateusPostCommentAPI.message, {
         exact: false,
@@ -116,9 +121,11 @@ describe('integration: PostCommentScreenshots', () => {
     );
 
     const comments = await screen.findAllByTestId('post-comment-id');
+
     expect(comments.length).toBe(1);
 
-    //verificar se foi exibida a toast message
+    // verificar se foi exibida a toast message
+
     await waitFor(() =>
       expect(screen.getByTestId('toast-message')).toBeTruthy(),
     );
