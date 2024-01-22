@@ -1,3 +1,3 @@
 declare module '@env' {
-  export const USER_IP: string;
+  export const USER_MAC_IP: string;
 }

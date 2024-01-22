@@ -64,5 +64,7 @@
 		<string>Satoshi-Regular.otf</string>
 		<string>Satoshi-Black.otf</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Para publicar novos posts</string>
 </dict>
 </plist>

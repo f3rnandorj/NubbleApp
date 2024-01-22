@@ -2,25 +2,36 @@ import React from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 
-import {Box, Icon, Text, TouchableOpacityBox} from '@components';
+import {Box, BoxProps, Icon, Text, TouchableOpacityBox} from '@components';
 
 import {ScreenProps} from '../Screen';
 
-type Props = Pick<ScreenProps, 'title' | 'canGoBack' | 'HeaderComponent'>;
+type Props = Pick<ScreenProps, 'title' | 'canGoBack' | 'HeaderComponent'> &
+  BoxProps;
 
 const ICON_SIZE = 20;
 
-export function ScreenHeader({canGoBack, title, HeaderComponent}: Props) {
+export function ScreenHeader({
+  canGoBack,
+  title,
+  HeaderComponent,
+  ...boxProps
+}: Props) {
   const navigation = useNavigation();
 
   const showBackLabel = !title && !HeaderComponent;
+
+  if (!title && !HeaderComponent && !canGoBack) {
+    return null;
+  }
 
   return (
     <Box
       flexDirection="row"
       alignItems="center"
       justifyContent="space-between"
-      mb="s24">
+      mb="s24"
+      {...boxProps}>
       {canGoBack && (
         <TouchableOpacityBox
           testID="screen-back-button"

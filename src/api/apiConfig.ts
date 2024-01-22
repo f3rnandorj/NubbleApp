@@ -1,6 +1,6 @@
 import {Platform} from 'react-native';
 
-import {USER_IP} from '@env';
+import {USER_MAC_IP} from '@env';
 import axios, {AxiosError} from 'axios';
 
 import {authService} from '@domain';
@@ -17,7 +17,7 @@ type InterceptorProps = {
 
 export const BASE_URL =
   Platform.OS === 'android'
-    ? `http://${USER_IP}:3333/`
+    ? `http://${USER_MAC_IP}:3333/`
     : 'http://localhost:3333/';
 
 export const api = axios.create({
