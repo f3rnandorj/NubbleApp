@@ -20,6 +20,7 @@ export const palette = {
   gray5: '#F5F5F5',
   grayWhite: '#FFFFFF',
   white70: 'rgba(255, 255, 255, 0.7)',
+  black60: 'rgba(0,0,0,0.6)',
 };
 
 export const theme = createTheme({
