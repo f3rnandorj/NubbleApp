@@ -9,7 +9,8 @@
     "start": "react-native start",
     "test": "jest --verbose",
     "coverage": "jest --verbose --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pre-commit": "yarn lint && yarn tsc --noEmit && yarn test"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
@@ -22,6 +23,8 @@
     "@tanstack/react-query": "^4.35.0",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
+    "expo": "^48.0.0",
+    "expo-image-manipulator": "~11.1.1",
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-hook-form": "7.43.9",
