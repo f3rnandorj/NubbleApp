@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {Post} from '@domain';
-
 import {Box, ProfileUser} from '@components';
+import {Post} from '@domain';
 
 import {PostActions} from './components/PostActions';
 import {PostBottom} from './components/PostBottom';
