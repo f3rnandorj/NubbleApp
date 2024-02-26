@@ -4,17 +4,17 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
 import {
   Box,
-  TouchableOpacityBox,
-  Text,
-  Icon,
-  TextProps,
-  TouchableOpacityBoxProps,
   BoxProps,
+  Icon,
+  Text,
+  TextProps,
+  TouchableOpacityBox,
+  TouchableOpacityBoxProps,
 } from '@components';
 import {useAppSafeArea} from '@hooks';
+import {AppTabBottomTabParamList} from '@routes';
 import {$shadowProps} from '@theme';
 
-import {AppTabBottomTabParamList} from './AppTabNavigator';
 import {mapScreenToProps} from './mapScreenToProps';
 
 export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
@@ -37,6 +37,7 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
+            // The `merge: true` option makes sure that the params inside the tab screen are preserved
             navigation.navigate({
               name: route.name,
               params: route.params,
@@ -54,13 +55,14 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
 
         return (
           <TouchableOpacityBox
-            key={index}
+            key={route.name}
             {...$itemWrapper}
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
-            onLongPress={onLongPress}>
+            onLongPress={onLongPress}
+            style={{flex: 1}}>
             <Icon
               color={isFocused ? 'primary' : 'backgroundContrast'}
               name={isFocused ? tabItem.icon.focused : tabItem.icon.unfocused}
@@ -78,20 +80,19 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
 }
 
 const $label: TextProps = {
+  semiBold: true,
   marginTop: 's4',
   preset: 'paragraphCaption',
-  semiBold: true,
 };
 
 const $itemWrapper: TouchableOpacityBoxProps = {
   activeOpacity: 1,
-  flex: 1,
   alignItems: 'center',
   accessibilityRole: 'button',
 };
 
 const $boxWrapper: BoxProps = {
   paddingTop: 's12',
-  bg: 'background',
+  backgroundColor: 'background',
   flexDirection: 'row',
 };

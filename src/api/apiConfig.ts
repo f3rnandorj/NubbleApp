@@ -1,28 +1,18 @@
-import {Platform} from 'react-native';
-
 import {USER_MAC_IP} from '@env';
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 
-import {authService} from '@domain';
+import {AuthCredentials, authService} from '@domain';
 
-import {AuthCredentials} from '../domain/Auth/authTypes';
-
-type CustomAxiosConfig = AxiosError['config'] & {sent: boolean};
-
-type InterceptorProps = {
-  authCredentials: AuthCredentials | null;
-  removeCredentials: () => Promise<void>;
-  saveCredentials: (ac: AuthCredentials) => Promise<void>;
-};
-
-export const BASE_URL =
-  Platform.OS === 'android'
-    ? `http://${USER_MAC_IP}:3333/`
-    : 'http://localhost:3333/';
-
+export const BASE_URL = `http://${USER_MAC_IP}:3333/`;
 export const api = axios.create({
   baseURL: BASE_URL,
 });
+
+type InterceptorProps = {
+  authCredentials: AuthCredentials | null;
+  saveCredentials: (ac: AuthCredentials) => Promise<void>;
+  removeCredentials: () => Promise<void>;
+};
 
 export function registerInterceptor({
   authCredentials,
@@ -31,15 +21,13 @@ export function registerInterceptor({
 }: InterceptorProps) {
   const interceptor = api.interceptors.response.use(
     response => response,
-    async (responseError: AxiosError) => {
-      const status = responseError?.response?.status;
-
-      const failedRequest = responseError?.config as CustomAxiosConfig;
+    async responseError => {
+      const failedRequest = responseError.config;
       const hasNotRefreshToken = !authCredentials?.refreshToken;
       const isRefreshTokenRequest =
         authService.isRefreshTokenRequest(failedRequest);
 
-      if (status === 401) {
+      if (responseError.response.status === 401) {
         if (hasNotRefreshToken || isRefreshTokenRequest || failedRequest.sent) {
           removeCredentials();
           return Promise.reject(responseError);
@@ -50,7 +38,6 @@ export function registerInterceptor({
         const newAuthCredentials = await authService.authenticateByRefreshToken(
           authCredentials?.refreshToken,
         );
-
         saveCredentials(newAuthCredentials);
 
         failedRequest.headers.Authorization = `Bearer ${newAuthCredentials.token}`;
@@ -62,6 +49,6 @@ export function registerInterceptor({
     },
   );
 
-  //remove listener
+  // remove listener when component unmount
   return () => api.interceptors.response.eject(interceptor);
 }

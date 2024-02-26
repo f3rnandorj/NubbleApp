@@ -1,9 +1,9 @@
 import {
   request as rnpRequest,
   check as rnpCheck,
-  PermissionStatus as rnpPermissionStatus,
+  PermissionStatus as RnpPermissionStatus,
   PERMISSIONS as RNP_PERMISSIONS,
-  Permission as rnpPermission,
+  Permission as RnpPermission,
 } from 'react-native-permissions';
 
 import {
@@ -12,12 +12,12 @@ import {
   PermissionStatus,
 } from './permissionTypes';
 
-const mapName: Record<PermissionName, rnpPermission> = {
+const mapName: Record<PermissionName, RnpPermission> = {
   photoLibrary: RNP_PERMISSIONS.IOS.PHOTO_LIBRARY,
   camera: RNP_PERMISSIONS.IOS.CAMERA,
 };
 
-const mapStatus: Record<rnpPermissionStatus, PermissionStatus> = {
+const mapStatus: Record<RnpPermissionStatus, PermissionStatus> = {
   blocked: 'never_ask_again',
   denied: 'denied',
   granted: 'granted',

@@ -25,11 +25,10 @@ async function signUp(signUpData: SignUpData): Promise<void> {
   await authApi.signUp(signUpData);
 }
 
-async function isUsernameAvailable(username: string): Promise<boolean> {
-  const {isAvailable} = await authApi.isUsernameAvailable({username});
+async function isUserNameAvailable(username: string): Promise<boolean> {
+  const {isAvailable} = await authApi.isUserNameAvailable({username});
   return isAvailable;
 }
-
 async function isEmailAvailable(email: string): Promise<boolean> {
   const {isAvailable} = await authApi.isEmailAvailable({email});
   return isAvailable;
@@ -52,18 +51,17 @@ async function authenticateByRefreshToken(
   refreshToken: string,
 ): Promise<AuthCredentials> {
   const acAPI = await authApi.refreshToken(refreshToken);
-
   return authAdapter.toAuthCredentials(acAPI);
 }
 
 export const authService = {
   signIn,
   signOut,
-  signUp,
-  isUsernameAvailable,
-  isEmailAvailable,
   updateToken,
   removeToken,
+  signUp,
+  isUserNameAvailable,
+  isEmailAvailable,
   requestNewPassword,
   authenticateByRefreshToken,
   isRefreshTokenRequest: authApi.isRefreshTokenRequest,

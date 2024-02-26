@@ -1,5 +1,3 @@
-// import {asyncStorage} from './implementation/asyncStorage';
-
 export interface Storage {
   getItem: <T = unknown>(key: string) => Promise<T | null>;
   setItem: <T>(key: string, value: T) => Promise<void>;
@@ -8,6 +6,6 @@ export interface Storage {
 
 export let storage: Storage;
 
-export function initializeStorage(storageImp: Storage) {
-  storage = storageImp;
+export function initializeStorage(storageImpl: Storage) {
+  storage = storageImpl;
 }

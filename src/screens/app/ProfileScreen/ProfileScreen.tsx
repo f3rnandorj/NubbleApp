@@ -1,14 +1,15 @@
 import React from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
 
-import {ActivityIndicator, Box, ProfileAvatar, Screen, Text} from '@components';
 import {useUserGetById} from '@domain';
+
+import {ActivityIndicator, Box, ProfileAvatar, Screen, Text} from '@components';
 import {AppScreenProps} from '@routes';
 
 export function ProfileScreen({route}: AppScreenProps<'ProfileScreen'>) {
   const userId = route.params.userId;
 
-  const {isError, isLoading, user, isFetching, refetch} =
+  const {isError, isLoading, user, refetch, isFetching} =
     useUserGetById(userId);
 
   return (
@@ -21,11 +22,11 @@ export function ProfileScreen({route}: AppScreenProps<'ProfileScreen'>) {
           refreshControl={
             <RefreshControl refreshing={isFetching} onRefresh={refetch} />
           }>
-          <Box alignItems="center">
+          <Box alignItems="center" flex={1}>
             <ProfileAvatar
               imageURL={user.profileUrl}
-              borderRadius={24}
               size={64}
+              borderRadius={24}
             />
             <Text preset="headingMedium" bold>
               {user.fullName}

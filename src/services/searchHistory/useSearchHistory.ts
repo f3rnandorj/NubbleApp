@@ -12,9 +12,8 @@ const useSearchHistoryStore = create<SearchHistoryService>()(
       addUser: user => {
         const userList = get().userList;
 
-        const userExists = userList.find(existUser => existUser.id === user.id);
-
-        if (!userExists) {
+        const userExist = userList.find(item => item.id === user.id);
+        if (!userExist) {
           const updatedList = [...userList, user];
           set({userList: updatedList});
         }

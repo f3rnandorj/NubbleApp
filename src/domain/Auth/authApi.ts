@@ -1,5 +1,5 @@
 import {api} from '@api';
-import {InternalAxiosRequestConfig} from 'axios';
+import {AxiosRequestConfig} from 'axios';
 
 import {UserAPI} from '../User';
 
@@ -10,7 +10,7 @@ import {
   SignUpDataAPI,
 } from './authTypes';
 
-const REFRESH_TOKEN_UTL = 'auth/refresh-token';
+const REFRESH_TOKEN_URL = 'auth/refresh-token';
 
 async function signIn(
   email: string,
@@ -33,7 +33,7 @@ async function signUp(data: SignUpDataAPI): Promise<UserAPI> {
   return response.data;
 }
 
-async function isUsernameAvailable(params: {
+async function isUserNameAvailable(params: {
   username: string;
 }): Promise<FieldIsAvailableAPI> {
   const response = await api.get<FieldIsAvailableAPI>(
@@ -61,36 +61,34 @@ async function forgotPassword(
 ): Promise<{message: string}> {
   const response = await api.post<{message: string}>(
     'auth/forgot-password',
-    null,
-    {
-      params,
-    },
+    params,
   );
 
   return response.data;
 }
 
 async function refreshToken(token: string): Promise<AuthCredentialsAPI> {
-  const response = await api.post<AuthCredentialsAPI>(REFRESH_TOKEN_UTL, {
+  const response = await api.post<AuthCredentialsAPI>(REFRESH_TOKEN_URL, {
     refreshToken: token,
   });
 
   return response.data;
 }
 
-function isRefreshTokenRequest(
-  request: InternalAxiosRequestConfig | undefined,
-): boolean {
-  const url = request?.url;
-
-  return url === REFRESH_TOKEN_UTL;
+/**
+ * @param axiosConfig [AxiosRequestConfig](https://axios-http.com/docs/req_config) - The Axios request configuration
+ * @returns  Check the config URL property to returns if is a refresh token request
+ */
+function isRefreshTokenRequest(request: AxiosRequestConfig): boolean {
+  const url = request.url;
+  return url === REFRESH_TOKEN_URL;
 }
 
 export const authApi = {
   signIn,
   signOut,
   signUp,
-  isUsernameAvailable,
+  isUserNameAvailable,
   isEmailAvailable,
   forgotPassword,
   refreshToken,

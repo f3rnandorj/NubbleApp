@@ -5,22 +5,31 @@ import {theme} from '@theme';
 
 import {useAppSafeArea} from '../useAppSafeArea';
 
-const mockedUseAppSafeArea = jest.mocked(useSafeAreaInsets);
+const mockedUseSafeAreaInsets = jest.mocked(useSafeAreaInsets);
 
 describe('useAppSafeArea', () => {
-  test('when the safe area is less than minimum requirement, it returns the minimum requirement plus 20 on top', () => {
-    mockedUseAppSafeArea.mockImplementationOnce(
-      () => ({top: 5, bottom: 5} as EdgeInsets),
+  test('when the safe area is less than minimum requirement, it returns the minimum requirement', () => {
+    mockedUseSafeAreaInsets.mockImplementationOnce(
+      () =>
+        ({
+          top: 4,
+          bottom: 2,
+        } as EdgeInsets),
     );
 
     const {result} = renderHook(() => useAppSafeArea());
 
-    expect(result.current.top).toEqual(theme.spacing.s20 + 20);
+    expect(result.current.top).toEqual(theme.spacing.s20);
     expect(result.current.bottom).toEqual(theme.spacing.s20);
   });
-  test('when the safe area is greater than minimum requirement, it returns the minimum requirement', () => {
-    mockedUseAppSafeArea.mockImplementationOnce(
-      () => ({top: 40, bottom: 40} as EdgeInsets),
+
+  test('when the safe area is greater than minimum requirement, it returns the safe area', () => {
+    mockedUseSafeAreaInsets.mockImplementationOnce(
+      () =>
+        ({
+          top: 40,
+          bottom: 40,
+        } as EdgeInsets),
     );
 
     const {result} = renderHook(() => useAppSafeArea());

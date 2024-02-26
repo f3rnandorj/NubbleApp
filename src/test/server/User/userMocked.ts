@@ -1,5 +1,4 @@
-import {PageApi} from '@api';
-
+import {PageAPI} from '@api';
 import {UserAPI} from '@domain';
 
 const user1: UserAPI = {
@@ -30,7 +29,7 @@ const user2: UserAPI = {
 
 const userList: UserAPI[] = [user1, user2];
 
-const mockedUserResponse: PageApi<UserAPI> = {
+const mockedUserResponse: PageAPI<UserAPI> = {
   meta: {
     total: 2,
     per_page: 10,

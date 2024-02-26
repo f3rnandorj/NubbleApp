@@ -3,7 +3,7 @@ export enum QueryKeys {
   PostCommentList = 'PostCommentList',
   UserGetById = 'UserGetById',
   UserList = 'UserList',
-  IsUsernameAvailable = 'isUsernameAvailable',
+  IsUsernameAvailable = 'IsUsernameAvailable',
   IsEmailAvailable = 'IsEmailAvailable',
   CameraRollList = 'CameraRollList',
 }

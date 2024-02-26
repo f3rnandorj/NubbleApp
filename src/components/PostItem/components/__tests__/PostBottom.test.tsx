@@ -22,7 +22,7 @@ describe('<PostBottom />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  test('does not show the comment link if it has no comment', () => {
+  it('does not show the comment link if it has no comment', () => {
     render(<PostBottom {...mockedPost} commentCount={0} />);
 
     const commentLinkElement = screen.queryByText(/comentário/);
@@ -30,7 +30,7 @@ describe('<PostBottom />', () => {
     expect(commentLinkElement).toBeFalsy();
   });
 
-  test('navigates to PostCommentScreen when pressing the comment link', () => {
+  it('navigates to PostCommentScreen when pressing the comment link', () => {
     render(<PostBottom {...mockedPost} commentCount={4} />);
 
     const commentLinkElement = screen.getByText(/comentário/);

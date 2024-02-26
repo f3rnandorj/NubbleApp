@@ -1,28 +1,26 @@
 import React from 'react';
 
+import {useAuthSignIn} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {
-  Screen,
-  FormTextInput,
-  Button,
   Text,
+  Screen,
+  Button,
+  FormTextInput,
   FormPasswordInput,
 } from '@components';
 import {AuthScreenProps} from '@routes';
 
-import {useAuthSignIn} from '../../../domain/Auth/useCases/useAuthSignIn';
-
-import {loginSchema, LoginSchema} from './loginSchema';
+import {LoginSchema, loginSchema} from './loginSchema';
 
 export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
   const {showToast} = useToastService();
   const {isLoading, signIn} = useAuthSignIn({
     onError: message => showToast({message, type: 'error'}),
   });
-
   const {control, formState, handleSubmit} = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -43,13 +41,12 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
   function navigateToForgotPasswordScreen() {
     navigation.navigate('ForgotPasswordScreen');
   }
-
   return (
-    <Screen>
+    <Screen scrollable>
       <Text marginBottom="s8" preset="headingLarge">
         Olá
       </Text>
-      <Text marginBottom="s40" preset="paragraphLarge">
+      <Text preset="paragraphLarge" mb="s40">
         Digite seu e-mail e senha para entrar
       </Text>
 
@@ -66,13 +63,13 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
         name="password"
         label="Senha"
         placeholder="Digite sua senha"
-        boxProps={{mb: 's48'}}
+        boxProps={{mb: 's20'}}
       />
 
       <Text
         onPress={navigateToForgotPasswordScreen}
-        preset="paragraphSmall"
         color="primary"
+        preset="paragraphSmall"
         bold>
         Esqueci minha senha
       </Text>
@@ -81,15 +78,14 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
         loading={isLoading}
         disabled={!formState.isValid}
         onPress={handleSubmit(submitForm)}
-        mt="s48"
+        marginTop="s48"
         title="Entrar"
       />
-
       <Button
         onPress={navigateToSignUpScreen}
-        mt="s12"
-        title="Criar uma conta"
         preset="outline"
+        marginTop="s12"
+        title="Criar uma conta"
       />
     </Screen>
   );

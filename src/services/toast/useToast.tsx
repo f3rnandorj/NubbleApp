@@ -12,10 +12,10 @@ export function useToastService(): Pick<
   ToastService,
   'showToast' | 'hideToast'
 > {
-  // const {hideToast, showToast} = useToastContext();
+  // const {showToast, hideToast} = useToastContext();
   // return {
-  //   hideToast,
   //   showToast,
+  //   hideToast,
   // };
 
   return useToastServiceZustand();

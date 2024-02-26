@@ -11,29 +11,28 @@ export interface ScreenProps extends BoxProps {
   HeaderComponent?: React.ReactNode;
   canGoBack?: boolean;
   scrollable?: boolean;
-  noPaddingHorizontal?: boolean;
   title?: string;
+  noPaddingHorizontal?: boolean;
 }
 
 export function Screen({
   children,
   canGoBack = false,
   scrollable = false,
-  title,
-  style,
-  HeaderComponent,
   noPaddingHorizontal = false,
+  style,
+  title,
+  HeaderComponent,
   ...boxProps
 }: ScreenProps) {
-  const {top, bottom} = useAppSafeArea();
+  const {bottom, top} = useAppSafeArea();
   const {colors} = useAppTheme();
 
   const Container = scrollable ? ScrollViewContainer : ViewContainer;
-
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{flex: 1}}>
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Container backgroundColor={colors.background}>
         <Box
           paddingHorizontal={noPaddingHorizontal ? undefined : 's24'}
@@ -45,7 +44,6 @@ export function Screen({
             canGoBack={canGoBack}
             title={title}
           />
-
           {children}
         </Box>
       </Container>

@@ -2,17 +2,15 @@ import React, {useEffect} from 'react';
 import {createContext, useState} from 'react';
 
 import {registerInterceptor} from '@api';
+import {AuthCredentials, authService} from '@domain';
 
-import {authService} from '@domain';
-
-import {AuthCredentials} from '../../../domain/Auth/authTypes';
 import {authCredentialsStorage} from '../authCredentialsStorage';
 import {AuthCredentialsService} from '../authCredentialsTypes';
 
 export const AuthCredentialsContext = createContext<AuthCredentialsService>({
   authCredentials: null,
-  isLoading: true,
   userId: null,
+  isLoading: true,
   saveCredentials: async () => {},
   removeCredentials: async () => {},
 });
@@ -22,20 +20,34 @@ export function AuthCredentialsProvider({
 }: React.PropsWithChildren<{}>) {
   const [authCredentials, setAuthCredentials] =
     useState<AuthCredentials | null>(null);
+
   const [isLoading, setIsLoading] = useState(true);
 
-  const userId = authCredentials?.user.id || null;
+  useEffect(() => {
+    startAuthCredentials();
+  }, []);
+
+  useEffect(() => {
+    const interceptor = registerInterceptor({
+      authCredentials,
+      removeCredentials,
+      saveCredentials,
+    });
+
+    // remove listener when component unmount
+    return interceptor;
+  }, [authCredentials]);
 
   async function startAuthCredentials() {
     try {
+      // await new Promise(resolve => setTimeout(resolve, 2000, ''));
       const ac = await authCredentialsStorage.get();
-
       if (ac) {
         authService.updateToken(ac.token);
         setAuthCredentials(ac);
       }
     } catch (error) {
-      //TODO:
+      // TODO: handle error
     } finally {
       setIsLoading(false);
     }
@@ -53,19 +65,7 @@ export function AuthCredentialsProvider({
     setAuthCredentials(null);
   }
 
-  useEffect(() => {
-    const interceptor = registerInterceptor({
-      authCredentials,
-      removeCredentials,
-      saveCredentials,
-    });
-
-    return interceptor;
-  }, [authCredentials]);
-
-  useEffect(() => {
-    startAuthCredentials();
-  }, []);
+  const userId = authCredentials?.user.id || null;
 
   return (
     <AuthCredentialsContext.Provider
@@ -73,8 +73,8 @@ export function AuthCredentialsProvider({
         authCredentials,
         isLoading,
         saveCredentials,
-        userId,
         removeCredentials,
+        userId,
       }}>
       {children}
     </AuthCredentialsContext.Provider>

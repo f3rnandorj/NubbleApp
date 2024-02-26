@@ -10,7 +10,6 @@ export function usePermission(permissionName: PermissionName) {
   async function checkPermission() {
     try {
       setIsLoading(true);
-
       const initialStatus = await permissionService.check(permissionName);
       if (initialStatus === 'denied') {
         const _status = await permissionService.request(permissionName);

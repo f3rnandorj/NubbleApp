@@ -1,38 +1,36 @@
 import React from 'react';
 
-import {Box} from '@components';
 import {Post} from '@domain';
 
-import {ProfileUser} from '../ProfileUser/ProfileUser';
+import {Box, ProfileUser} from '@components';
 
-import {PostAction} from './components/PostAction';
+import {PostActions} from './components/PostActions';
 import {PostBottom} from './components/PostBottom';
 import {PostImage} from './components/PostImage';
 
 interface Props {
   post: Post;
 }
-
 export function PostItem({post}: Props) {
   return (
-    <Box marginBottom="s24" paddingHorizontal="s24">
+    <Box paddingHorizontal="s24" marginBottom="s24">
       <ProfileUser
         user={{
-          id: post.id,
-          profileUrl: post.author.profileURL,
+          id: post.author.id,
           username: post.author.userName,
+          profileUrl: post.author.profileURL,
         }}
       />
       <PostImage imageURL={post.imageURL} />
-      <PostAction
+      <PostActions
         commentCount={post.commentCount}
         favoriteCount={post.favoriteCount}
         reactionCount={post.reactionCount}
       />
       <PostBottom
         author={post.author}
-        commentCount={post.commentCount}
         text={post.text}
+        commentCount={post.commentCount}
         id={post.id}
       />
     </Box>

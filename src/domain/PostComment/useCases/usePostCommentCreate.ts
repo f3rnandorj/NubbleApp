@@ -1,7 +1,6 @@
+import {PostComment} from '@domain';
 import {MutationOptions, QueryKeys} from '@infra';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
-
-import {PostComment} from '@domain';
 
 import {postCommentService} from '../postCommentService';
 
@@ -26,10 +25,9 @@ export function usePostCommentCreate(
         options.onSuccess(data);
       }
     },
-
     onError: () => {
       if (options?.onError) {
-        options?.onError(options?.errorMessage || 'Ocorreu um erro');
+        options.onError(options?.errorMessage || 'ocorreu um erro');
       }
     },
   });
@@ -44,8 +42,3 @@ export function usePostCommentCreate(
     isError,
   };
 }
-
-// const {mutate, error, loading} = useMutation<{message: string}, PostComment>(
-//   ({message}) => postCommentService.create(postId, message),
-//   options,
-// );

@@ -1,23 +1,22 @@
 import React from 'react';
 
+import {useAuthRequestNewPassword} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
-import {Button, Text, Screen, FormTextInput} from '@components';
+import {Button, FormTextInput, Screen, Text} from '@components';
 import {useResetNavigationSuccess} from '@hooks';
 import {AuthScreenProps, AuthStackParamList} from '@routes';
 
-import {useAuthRequestNewPassword} from '../../../domain/Auth/useCases/useAuthRequestNewPassword';
-
 import {
-  forgotPasswordSchema,
   ForgotPasswordSchema,
+  forgotPasswordSchema,
 } from './forgotPasswordSchema';
 
-const resetParams: AuthStackParamList['SuccessScreen'] = {
-  title: `Enviamos as instruções ${'\n'}para seu e-mail!`,
-  description: 'Clique no link enviado no  seu e-mail para recuperar sua senha',
+const resetParam: AuthStackParamList['SuccessScreen'] = {
+  title: `Enviamos as instruções ${'\n'}para seu e-mail`,
+  description: 'Clique no link enviado no seu e-mail para recuperar sua senha',
   icon: {
     name: 'messageRound',
     color: 'primary',
@@ -27,9 +26,8 @@ const resetParams: AuthStackParamList['SuccessScreen'] = {
 export function ForgotPasswordScreen({}: AuthScreenProps<'ForgotPasswordScreen'>) {
   const {reset} = useResetNavigationSuccess();
   const {showToast} = useToastService();
-
   const {requestNewPassword, isLoading} = useAuthRequestNewPassword({
-    onSuccess: () => reset(resetParams),
+    onSuccess: () => reset(resetParam),
     onError: message => showToast({message, type: 'error'}),
   });
 
@@ -47,7 +45,9 @@ export function ForgotPasswordScreen({}: AuthScreenProps<'ForgotPasswordScreen'>
 
   return (
     <Screen canGoBack>
-      <Text>Esqueci minha senha </Text>
+      <Text preset="headingLarge" mb="s16">
+        Esqueci minha senha
+      </Text>
       <Text preset="paragraphLarge" mb="s32">
         Digite seu e-mail e enviaremos as instruções para redefinição de senha
       </Text>
@@ -62,9 +62,9 @@ export function ForgotPasswordScreen({}: AuthScreenProps<'ForgotPasswordScreen'>
 
       <Button
         loading={isLoading}
+        disabled={!formState.isValid}
         onPress={handleSubmit(submitForm)}
         title="Recuperar senha"
-        disabled={!formState.isValid}
       />
     </Screen>
   );

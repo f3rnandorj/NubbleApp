@@ -1,3 +1,5 @@
+//
+
 import {useState} from 'react';
 
 export interface MutationOptions<TData> {
@@ -7,7 +9,7 @@ export interface MutationOptions<TData> {
 }
 
 /**
- * @deprecated use useMutation from '@tanstack/React-query'
+ * @deprecated use useMutation from `@tanstack/react-query`
  */
 export function useMutation<TVariables, TData>(
   mutationFn: (variables: TVariables) => Promise<TData>,
@@ -20,17 +22,14 @@ export function useMutation<TVariables, TData>(
     try {
       setLoading(true);
       setError(null);
-
       const data = await mutationFn(variables);
-
       if (options?.onSuccess) {
         options.onSuccess(data);
       }
-    } catch (er) {
+    } catch (mutateError) {
       if (options?.onError) {
         options.onError(options?.errorMessage || '');
       }
-
       setError(true);
     } finally {
       setLoading(false);

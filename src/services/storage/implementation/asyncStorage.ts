@@ -5,7 +5,6 @@ import {Storage} from '../storage';
 export const asyncStorage: Storage = {
   getItem: async key => {
     const item = await AsyncStorage.getItem(key);
-
     if (item) {
       return JSON.parse(item);
     }

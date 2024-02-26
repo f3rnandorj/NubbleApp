@@ -14,7 +14,7 @@ export function useAuthRequestNewPassword(options?: MutationOptions<string>) {
     },
     onSuccess: message => {
       if (options?.onSuccess) {
-        options.onSuccess(message);
+        options?.onSuccess(message);
       }
     },
   });

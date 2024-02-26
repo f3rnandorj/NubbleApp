@@ -4,8 +4,7 @@ import {SimpleLogo} from '@brand';
 import {useNavigation} from '@react-navigation/native';
 
 import {Box, BoxProps, Icon} from '@components';
-
-import {useAppSafeArea} from './../../../../hooks/useAppSafeArea';
+import {useAppSafeArea} from '@hooks';
 
 export function HomeHeader() {
   const {top} = useAppSafeArea();
@@ -17,17 +16,16 @@ export function HomeHeader() {
   }
 
   return (
-    <Box {...$wrapper} style={{marginTop: top}}>
+    <Box {...$wrapper} style={{paddingTop: top}}>
       <SimpleLogo width={70} />
-
       <Box flexDirection="row">
-        <Icon
-          onPress={navigateToSearchScreen}
-          name="search"
-          style={{paddingRight: 24}}
-        />
-        <Icon onPress={() => {}} name="bell" style={{marginRight: 24}} />
-        <Icon onPress={() => {}} name="comment" />
+        <Box mr="s24">
+          <Icon onPress={navigateToSearchScreen} name="search" />
+        </Box>
+        <Box mr="s24">
+          <Icon name="bell" />
+        </Box>
+        <Icon name="comment" />
       </Box>
     </Box>
   );
@@ -35,7 +33,8 @@ export function HomeHeader() {
 
 const $wrapper: BoxProps = {
   flexDirection: 'row',
+
   justifyContent: 'space-between',
-  pb: 's24',
+  paddingBottom: 's24',
   paddingHorizontal: 's24',
 };

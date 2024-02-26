@@ -5,7 +5,6 @@ interface Props {
   children: React.ReactNode;
   backgroundColor: string;
 }
-
 export function ScrollViewContainer({children, backgroundColor}: Props) {
   return (
     <ScrollView

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {useAuthSignUp} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 
@@ -11,11 +12,10 @@ import {
   Screen,
   Text,
 } from '@components';
-import {useAuthSignUp} from '@domain';
 import {useResetNavigationSuccess} from '@hooks';
 import {AuthScreenProps, AuthStackParamList} from '@routes';
 
-import {SignUpSchema, signUpSchema} from './signUpSchema';
+import {signUpSchema, SignUpSchema} from './signUpSchema';
 import {useAsyncValidation} from './useAsyncValidation';
 
 const resetParam: AuthStackParamList['SuccessScreen'] = {
@@ -28,27 +28,29 @@ const resetParam: AuthStackParamList['SuccessScreen'] = {
 };
 
 const defaultValues: SignUpSchema = {
-  email: '',
+  username: '',
   firstName: '',
   lastName: '',
+  email: '',
   password: '',
-  username: '',
 };
 
 export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
   const {reset} = useResetNavigationSuccess();
   const {signUp, isLoading} = useAuthSignUp({
-    onSuccess: () => reset(resetParam),
+    onSuccess: () => {
+      reset(resetParam);
+    },
   });
+
   const {control, formState, handleSubmit, watch, getFieldState} =
     useForm<SignUpSchema>({
       resolver: zodResolver(signUpSchema),
       defaultValues,
       mode: 'onChange',
     });
-
-  function submitForm(formData: SignUpSchema) {
-    signUp(formData);
+  function submitForm(formValues: SignUpSchema) {
+    signUp(formValues);
   }
 
   const {usernameValidation, emailValidation} = useAsyncValidation({
@@ -67,8 +69,8 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
         name="username"
         label="Seu username"
         placeholder="@"
-        boxProps={{mb: 's20'}}
         errorMessage={usernameValidation.errorMessage}
+        boxProps={{mb: 's20'}}
         RightComponent={
           usernameValidation.isFetching ? (
             <ActivityIndicator size="small" />
@@ -79,21 +81,19 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
       <FormTextInput
         control={control}
         name="firstName"
-        label="Nome"
         autoCapitalize="words"
+        label="Nome"
         placeholder="Digite seu nome"
         boxProps={{mb: 's20'}}
       />
-
       <FormTextInput
         control={control}
         name="lastName"
-        label="Sobrenome"
         autoCapitalize="words"
+        label="Sobrenome"
         placeholder="Digite seu sobrenome"
         boxProps={{mb: 's20'}}
       />
-
       <FormTextInput
         control={control}
         name="email"
@@ -117,14 +117,14 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
       />
 
       <Button
+        loading={isLoading}
         disabled={
           !formState.isValid ||
           usernameValidation.notReady ||
           emailValidation.notReady
         }
-        loading={isLoading}
-        title="Criar uma conta"
         onPress={handleSubmit(submitForm)}
+        title="Criar uma conta"
       />
     </Screen>
   );

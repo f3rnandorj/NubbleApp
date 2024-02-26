@@ -3,14 +3,14 @@ import {Post} from '@domain';
 export const mockedPost: Post = {
   id: 1,
   imageURL: 'fake-url',
-  commentCount: 3,
+  commentCount: 5,
   favoriteCount: 2,
-  reactionCount: 3,
-  text: 'this is the text (pos description)',
+  reactionCount: 8,
+  text: 'this is the text (post description)',
   author: {
     id: 2,
-    name: 'Fernando',
+    name: 'Maria Julia',
     profileURL: 'https://example.com',
-    userName: 'fernandoRj',
+    userName: 'mariajulia',
   },
 };

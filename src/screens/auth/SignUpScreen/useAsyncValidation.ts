@@ -1,6 +1,5 @@
-import {UseFormGetFieldState, UseFormWatch} from 'react-hook-form';
-
 import {useAuthIsEmailAvailable, useAuthIsUsernameAvailable} from '@domain';
+import {UseFormWatch, UseFormGetFieldState} from 'react-hook-form';
 
 import {SignUpSchema} from './signUpSchema';
 
@@ -10,7 +9,7 @@ type Props = {
 };
 
 type ReturnValues = {
-  errorMessage: string | undefined;
+  errorMessage?: string;
   notReady: boolean;
   isFetching: boolean;
 };
@@ -21,7 +20,7 @@ export function useAsyncValidation({watch, getFieldState}: Props): {
 } {
   const username = watch('username');
   const usernameState = getFieldState('username');
-  const usernameIsValid = !usernameState.invalid || usernameState.isDirty;
+  const usernameIsValid = !usernameState.invalid && usernameState.isDirty;
   const usernameQuery = useAuthIsUsernameAvailable({
     username,
     enabled: usernameIsValid,
@@ -29,7 +28,7 @@ export function useAsyncValidation({watch, getFieldState}: Props): {
 
   const email = watch('email');
   const emailState = getFieldState('email');
-  const emailIsValid = !emailState.invalid || emailState.isDirty;
+  const emailIsValid = !emailState.invalid && emailState.isDirty;
   const emailQuery = useAuthIsEmailAvailable({
     email,
     enabled: emailIsValid,

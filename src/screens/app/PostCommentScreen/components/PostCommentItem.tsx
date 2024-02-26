@@ -1,42 +1,38 @@
 import React from 'react';
-import {Alert} from 'react-native';
+import {Alert, Pressable} from 'react-native';
 
+import {PostComment, postCommentService, usePostCommentRemove} from '@domain';
 import {useToastService} from '@services';
 
-import {Box, ProfileAvatar, Text, PressableBox} from '@components';
-import {PostComment, postCommentService, usePostCommentRemove} from '@domain';
+import {Box, ProfileAvatar, Text} from '@components';
 
 interface Props {
   postId: number;
   postComment: PostComment;
   userId: number | null;
-  userAuthorId: number;
+  postAuthorId: number;
 }
-
 export function PostCommentItem({
   postId,
   postComment,
-  userAuthorId,
   userId,
+  postAuthorId,
 }: Props) {
   const {showToast} = useToastService();
-
   const {mutate} = usePostCommentRemove(postId, {
     onSuccess: () => {
-      showToast({
-        message: 'Comentário deletado',
-      });
+      showToast({message: 'Cometário deletado'});
     },
   });
 
   const isAllowToDelete = postCommentService.isAllowToDelete(
     postComment,
-    userAuthorId,
     userId,
+    postAuthorId,
   );
 
-  async function confirmRemove() {
-    Alert.alert('Deseja excluir o comentário', 'pressione confirmar', [
+  function confirmRemove() {
+    Alert.alert('Deseja excluir o comentário?', 'pressione confirmar', [
       {
         text: 'Confirmar',
         onPress: () => mutate({postCommentId: postComment.id}),
@@ -49,13 +45,12 @@ export function PostCommentItem({
   }
 
   return (
-    <PressableBox
+    <Pressable
       testID="post-comment-id"
       disabled={!isAllowToDelete}
       onLongPress={confirmRemove}>
       <Box flexDirection="row" alignItems="center" mb="s16">
-        <ProfileAvatar imageURL={postComment.author.profileUrl} />
-
+        <ProfileAvatar imageURL={postComment.author.profileURL} />
         <Box ml="s12" flex={1}>
           <Text preset="paragraphSmall" bold>
             {postComment.author.userName}
@@ -65,6 +60,6 @@ export function PostCommentItem({
           </Text>
         </Box>
       </Box>
-    </PressableBox>
+    </Pressable>
   );
 }

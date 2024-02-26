@@ -3,16 +3,11 @@ import {Image} from 'react-native';
 
 export interface ProfileAvatarProps {
   imageURL: string;
-  /**
-   * @default 32
-   */
+  /** @default 32 */
   size?: number;
-  /**
-   * @default 14
-   */
+  /** @default 14 */
   borderRadius?: number;
 }
-
 export function ProfileAvatar({
   imageURL,
   size = 32,

@@ -2,19 +2,18 @@ import {apiAdapter} from '@api';
 import {Page} from '@types';
 
 import {userAdapter} from './userAdapter';
-import {userAPI} from './userApi';
+import {userApi} from './userApi';
 import {User} from './userTypes';
 
 async function getById(id: number): Promise<User> {
-  const userApi = await userAPI.getById(id.toString());
-
-  return userAdapter.toUser(userApi);
+  const userAPI = await userApi.getById(id.toString());
+  return userAdapter.toUser(userAPI);
 }
 
 async function searchUser(search: string): Promise<Page<User>> {
-  const userApiPage = await userAPI.getList(search);
+  const userPageAPI = await userApi.getList(search);
 
-  return apiAdapter.toPageModel(userApiPage, userAdapter.toUser);
+  return apiAdapter.toPageModel(userPageAPI, userAdapter.toUser);
 }
 
 export const userService = {

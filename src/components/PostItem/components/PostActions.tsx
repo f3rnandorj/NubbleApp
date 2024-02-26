@@ -1,55 +1,54 @@
 import React from 'react';
 
-import {Box, Icon, IconProps, Text, TouchableOpacityBox} from '@components';
 import {Post} from '@domain';
 
-type Props = Pick<Post, 'reactionCount' | 'commentCount' | 'favoriteCount'>;
+import {Box, TouchableOpacityBox, Icon, IconProps, Text} from '@components';
 
-export function PostAction({
+type Props = Pick<Post, 'reactionCount' | 'commentCount' | 'favoriteCount'>;
+export function PostActions({
   reactionCount,
   commentCount,
   favoriteCount,
 }: Props) {
   function likePost() {
-    //TODO:
+    //TODO: Implement like post
   }
 
   function navigateToComments() {
-    //TODO:
+    //TODO: Implement navigate to comments
   }
 
   function favoritePost() {
-    //TODO:
+    // TODO: Implement favorite post
   }
-
   return (
     <Box flexDirection="row" mt="s16">
       <Item
-        marked={false}
+        marked
+        onPress={likePost}
+        text={reactionCount}
         icon={{
           default: 'heart',
           marked: 'heartFill',
         }}
-        onPress={likePost}
-        count={reactionCount}
       />
       <Item
         marked={false}
+        onPress={navigateToComments}
+        text={commentCount}
         icon={{
           default: 'comment',
           marked: 'comment',
         }}
-        onPress={navigateToComments}
-        count={commentCount}
       />
       <Item
         marked={false}
+        onPress={favoritePost}
+        text={favoriteCount}
         icon={{
           default: 'bookmark',
           marked: 'bookmarkFill',
         }}
-        onPress={favoritePost}
-        count={favoriteCount}
       />
     </Box>
   );
@@ -58,27 +57,26 @@ export function PostAction({
 interface ItemProps {
   onPress: () => void;
   marked: boolean;
-  count: number;
+  text: number;
   icon: {
     default: IconProps['name'];
     marked: IconProps['name'];
   };
 }
-
-function Item({onPress, icon, marked, count}: ItemProps) {
+function Item({onPress, icon, marked, text}: ItemProps) {
   return (
     <TouchableOpacityBox
       flexDirection="row"
       alignItems="center"
-      onPress={onPress}
-      mr="s24">
+      mr="s24"
+      onPress={onPress}>
       <Icon
+        color={marked ? 'market' : undefined}
         name={marked ? icon.marked : icon.default}
-        color={marked ? 'marked' : undefined}
       />
-      {count > 0 && (
-        <Text preset="paragraphSmall" ml="s4">
-          {count}
+      {text > 0 && (
+        <Text preset="paragraphSmall" bold ml="s4">
+          {text}
         </Text>
       )}
     </TouchableOpacityBox>

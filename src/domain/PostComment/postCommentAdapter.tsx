@@ -1,8 +1,8 @@
 import {dateUtils} from '@utils';
 
-import {PostComment, PostCommentApi} from './postCommentTypes';
+import {PostComment, PostCommentAPI} from './postCommentTypes';
 
-function toPostComment(postCommentAPI: PostCommentApi): PostComment {
+function toPostComment(postCommentAPI: PostCommentAPI): PostComment {
   return {
     id: postCommentAPI.id,
     message: postCommentAPI.message,
@@ -11,7 +11,7 @@ function toPostComment(postCommentAPI: PostCommentApi): PostComment {
     author: {
       id: postCommentAPI.user.id,
       name: postCommentAPI.user.full_name,
-      profileUrl: postCommentAPI.user.profile_url,
+      profileURL: postCommentAPI.user.profile_url,
       userName: postCommentAPI.user.username,
     },
   };

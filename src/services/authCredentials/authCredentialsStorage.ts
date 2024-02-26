@@ -1,4 +1,5 @@
-import {AuthCredentials} from '../../domain/Auth/authTypes';
+import {AuthCredentials} from '@domain';
+
 import {storage} from '../storage';
 
 const AUTH_KEY = '@Auth';
@@ -14,8 +15,4 @@ async function remove(): Promise<void> {
   await storage.removeItem(AUTH_KEY);
 }
 
-export const authCredentialsStorage = {
-  set,
-  get,
-  remove,
-};
+export const authCredentialsStorage = {set, get, remove};

@@ -1,6 +1,6 @@
 import React from 'react';
+import {Pressable} from 'react-native';
 
-import {PressableBox, PressableBoxProps} from '@components';
 import {useAppTheme} from '@hooks';
 import {ThemeColors} from '@theme';
 
@@ -18,7 +18,7 @@ import {CheckIcon} from '../../assets/icons/CheckIcon';
 import {CheckRoundIcon} from '../../assets/icons/CheckRoundIcon';
 import {ChevronRightIcon} from '../../assets/icons/ChevronRightIcon';
 import {CommentIcon} from '../../assets/icons/CommentIcon';
-import {ErrorRoundIcon} from '../../assets/icons/ErroRoundIcon';
+import {ErrorRoundIcon} from '../../assets/icons/ErrorRoundIcon';
 import {EyeOffIcon} from '../../assets/icons/EyeOffIcon';
 import {EyeOnIcon} from '../../assets/icons/EyeOnIcon';
 import {FlashOffIcon} from '../../assets/icons/FlashOffIcon';
@@ -41,32 +41,26 @@ export interface IconBase {
   color?: string;
 }
 
-export interface IconProps extends PressableBoxProps {
+export interface IconProps {
   name: IconName;
   color?: ThemeColors;
   size?: number;
   onPress?: () => void;
 }
-
 export function Icon({
   name,
   color = 'backgroundContrast',
   size,
   onPress,
-  ...pressableBoxProps
 }: IconProps) {
   const {colors} = useAppTheme();
   const SVGIcon = iconRegistry[name];
 
   if (onPress) {
     return (
-      <PressableBox
-        testID={name}
-        hitSlop={10}
-        onPress={onPress}
-        {...pressableBoxProps}>
+      <Pressable testID={name} hitSlop={10} onPress={onPress}>
         <SVGIcon color={colors[color]} size={size} />
-      </PressableBox>
+      </Pressable>
     );
   }
 
@@ -108,4 +102,5 @@ const iconRegistry = {
 };
 
 type IconType = typeof iconRegistry;
+
 type IconName = keyof IconType;

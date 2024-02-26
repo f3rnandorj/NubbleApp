@@ -1,18 +1,18 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthCredentialsProvider} from '@services';
 import {ThemeProvider} from '@shopify/restyle';
 import {
   QueryClient,
-  QueryClientConfig,
   QueryClientProvider,
+  QueryClientConfig,
 } from '@tanstack/react-query';
 import {
+  RenderOptions,
   render,
   renderHook,
   RenderHookOptions,
-  RenderOptions,
 } from '@testing-library/react-native';
 
 import {Toast} from '@components';
@@ -22,6 +22,7 @@ const queryClientConfig: QueryClientConfig = {
   logger: {
     log: console.log,
     warn: console.warn,
+    // ✅ no more errors on the console for tests
     //@ts-ignore
     error: process.env.NODE_ENV === 'test' ? () => {} : console.error,
   },
@@ -43,14 +44,14 @@ export const wrapAllProviders = () => {
   return ({children}: {children: React.ReactNode}) => (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <NavigationContainer>{children}</NavigationContainer>
+        <NavigationContainer>{children} </NavigationContainer>
       </ThemeProvider>
     </QueryClientProvider>
   );
 };
 
 function customRender<T = unknown>(
-  component: React.ReactElement<T>,
+  component: ReactElement<T>,
   options?: Omit<RenderOptions, 'wrapper'>,
 ) {
   return render(component, {wrapper: wrapAllProviders(), ...options});
@@ -63,7 +64,7 @@ export const wrapScreenProviders = () => {
     <AuthCredentialsProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <NavigationContainer>{children}</NavigationContainer>
+          <NavigationContainer>{children} </NavigationContainer>
           <Toast />
         </ThemeProvider>
       </QueryClientProvider>
@@ -72,7 +73,7 @@ export const wrapScreenProviders = () => {
 };
 
 export function renderScreen<T = unknown>(
-  component: React.ReactElement<T>,
+  component: ReactElement<T>,
   options?: Omit<RenderOptions, 'wrapper'>,
 ) {
   return render(component, {wrapper: wrapScreenProviders(), ...options});

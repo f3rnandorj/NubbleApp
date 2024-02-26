@@ -3,11 +3,14 @@ import {Linking, Platform} from 'react-native';
 
 import {PermissionName, usePermission} from '@services';
 
-import {ActivityIndicator} from '../ActivityIndicator/ActivityIndicator';
-import {Box} from '../Box/Box';
-import {Button} from '../Button/Button';
-import {Screen} from '../Screen/Screen';
-import {Text, TextProps} from '../Text/Text';
+import {
+  Screen,
+  Text,
+  TextProps,
+  Button,
+  ActivityIndicator,
+  Box,
+} from '@components';
 
 interface PermissionManagerProps {
   permissionName: PermissionName;
@@ -16,9 +19,9 @@ interface PermissionManagerProps {
 }
 
 export function PermissionManager({
-  children,
-  description,
   permissionName,
+  description,
+  children,
 }: PermissionManagerProps) {
   const {status, isLoading} = usePermission(permissionName);
 

@@ -1,4 +1,4 @@
-import {AuthCredentials, userAdapter, UserAPI} from '@domain';
+import {UserAPI, AuthCredentials, userAdapter} from '@domain';
 
 const mateusUserAPI: UserAPI = {
   id: 7,
@@ -12,7 +12,7 @@ const mateusUserAPI: UserAPI = {
   full_name: 'Mateus de Souza',
 };
 
-const mateusAuthCredentials: AuthCredentials = {
+export const mateusAuthCredentials: AuthCredentials = {
   token: 'access-token',
   tokenExpiresAt: '2030-10-07T12:08:50.433+00:00',
   refreshToken: 'refresh-token',

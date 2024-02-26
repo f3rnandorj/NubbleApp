@@ -3,9 +3,9 @@ import {Animated} from 'react-native';
 
 import {useToast, useToastService} from '@services';
 
-import {ToastContent} from './components/ToastContent';
+import {ToasContent} from './components/ToasContent';
 
-const DEFAULT_DURATION = 2000;
+const DEFAULT_DURATION = 4000;
 
 export function Toast() {
   const toast = useToast();
@@ -50,7 +50,7 @@ export function Toast() {
     <Animated.View
       testID={'toast-message'}
       style={{position: 'absolute', alignSelf: 'center', opacity: fadeAnim}}>
-      <ToastContent toast={toast} />
+      <ToasContent toast={toast} />
     </Animated.View>
   );
 }

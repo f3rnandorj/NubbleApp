@@ -1,14 +1,13 @@
-import {PageApi} from '@api';
 import {MetaDataPage, Page} from '@types';
 
-import {MetaDataPageApi} from './apiTypes';
+import {MetaDataPageAPI, PageAPI} from './apiTypes';
 
-function toMetaDataPage(meta: MetaDataPageApi): MetaDataPage {
+function toMetaDataPage(meta: MetaDataPageAPI): MetaDataPage {
   return {
     total: meta.total,
     perPage: meta.per_page,
     currentPage: meta.current_page,
-    lasPage: meta.last_page,
+    lastPage: meta.last_page,
     firstPage: meta.first_page,
     hasNextPage: !!meta.next_page_url,
     hasPreviousPage: !!meta.previous_page_url,
@@ -16,12 +15,12 @@ function toMetaDataPage(meta: MetaDataPageApi): MetaDataPage {
 }
 
 function toPageModel<ApiType, ModelType>(
-  page: PageApi<ApiType>,
+  page: PageAPI<ApiType>,
   adapterToModel: (api: ApiType) => ModelType,
 ): Page<ModelType> {
   return {
-    data: page.data.map(adapterToModel),
     meta: toMetaDataPage(page.meta),
+    data: page.data.map(adapterToModel),
   };
 }
 

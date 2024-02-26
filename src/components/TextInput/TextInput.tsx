@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
 import {
+  Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
   TextStyle,
@@ -7,23 +8,22 @@ import {
 
 import {useAppTheme} from '@hooks';
 
-import {Box, BoxProps, PressableBox} from '../Box/Box';
+import {Box, BoxProps} from '../Box/Box';
 import {$fontFamily, $fontSizes, Text} from '../Text/Text';
 
 export interface TextInputProps extends RNTextInputProps {
   label?: string;
   errorMessage?: string;
-  LeftComponent?: React.ReactElement;
   RightComponent?: React.ReactElement;
+  LeftComponent?: React.ReactElement;
   boxProps?: BoxProps;
   containerProps?: BoxProps;
 }
-
 export function TextInput({
   label,
   errorMessage,
-  LeftComponent,
   RightComponent,
+  LeftComponent,
   boxProps,
   containerProps,
   ...rnTextInputProps
@@ -42,10 +42,9 @@ export function TextInput({
   function focusInput() {
     inputRef.current?.focus();
   }
-
   return (
     <Box flexGrow={1} flexShrink={1} {...boxProps}>
-      <PressableBox onPress={focusInput}>
+      <Pressable onPress={focusInput}>
         {label && (
           <Text preset="paragraphMedium" marginBottom="s4">
             {label}
@@ -61,7 +60,7 @@ export function TextInput({
             autoCapitalize="none"
             ref={inputRef}
             placeholderTextColor={colors.gray2}
-            style={[{color: colors.backgroundContrast}, $textInputStyle]}
+            style={$textInputStyle}
             {...rnTextInputProps}
           />
           {RightComponent && (
@@ -70,21 +69,21 @@ export function TextInput({
             </Box>
           )}
         </Box>
-
         {errorMessage && (
-          <Text preset="paragraphSmall" bold color="error">
+          <Text color="error" preset="paragraphSmall" bold>
             {errorMessage}
           </Text>
         )}
-      </PressableBox>
+      </Pressable>
     </Box>
   );
 }
 
 export const $textInputStyle: TextStyle = {
+  padding: 0,
   flexGrow: 1,
   flexShrink: 1,
-  padding: 0,
+
   fontFamily: $fontFamily.regular,
   ...$fontSizes.paragraphMedium,
 };

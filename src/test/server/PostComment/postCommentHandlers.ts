@@ -1,12 +1,11 @@
-import {PageApi} from '@api';
+import {BASE_URL, PageAPI} from '@api';
+import {PostCommentAPI, POST_COMMENT_PATH} from '@domain';
 import {cloneDeep} from 'lodash';
 import {http, HttpResponse} from 'msw';
 
-import {PostCommentApi, POST_COMMENT_PATH} from '@domain';
-
 import {mockedData} from './mocks';
 
-const FULL_URL = `http://localhost:3333/${POST_COMMENT_PATH}`;
+const FULL_URL = `${BASE_URL}${POST_COMMENT_PATH}`;
 
 let inMemoryResponse = cloneDeep(mockedData.mockedPostCommentResponse);
 
@@ -16,22 +15,16 @@ export function resetInMemoryResponse() {
 
 export const postCommentHandlers = [
   http.get(FULL_URL, async () => {
-    const response: PageApi<PostCommentApi> = inMemoryResponse;
+    const response: PageAPI<PostCommentAPI> = inMemoryResponse;
 
     return HttpResponse.json(response, {status: 200});
   }),
-
-  //passo a passo do que e feito pelo usuário
-  //achar o campo de input
-  //digitar a mensagem
-  //pressionar em enviar
-  //lista atualizar com o novo comentário
   http.post<any, {post_id: number; message: string}>(
     FULL_URL,
     async ({request}) => {
       const body = await request.json();
 
-      const newPostCommentAPI: PostCommentApi = {
+      const newPostCommentAPI: PostCommentAPI = {
         ...mockedData.postCommentAPI,
         id: 999,
         post_id: body.post_id,
@@ -47,7 +40,6 @@ export const postCommentHandlers = [
       return HttpResponse.json(newPostCommentAPI, {status: 201});
     },
   ),
-
   http.delete<{postCommentId: string}>(
     `${FULL_URL}/:postCommentId`,
     async ({params}) => {

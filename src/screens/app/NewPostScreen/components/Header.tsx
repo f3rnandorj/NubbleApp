@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground} from 'react-native';
+import {ImageBackground, StyleSheet} from 'react-native';
 
 import {images} from '@assets';
 import {useNavigation} from '@react-navigation/native';
@@ -10,8 +10,7 @@ interface Props {
   imageUri?: string;
   imageWidth: number;
 }
-
-export function Header({imageWidth, imageUri}: Props) {
+export function Header({imageUri, imageWidth}: Props) {
   const navigation = useNavigation();
 
   function navigateToPublishPost() {
@@ -23,18 +22,18 @@ export function Header({imageWidth, imageUri}: Props) {
   function navigateToCamera() {
     navigation.navigate('CameraScreen');
   }
-
   return (
     <Box>
       <ImageBackground
         source={imageUri ? {uri: imageUri} : images.imagePlaceholder}
-        style={{
-          width: imageWidth,
-          height: imageWidth,
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}>
-        {!!imageUri && (
+        style={[
+          {
+            width: imageWidth,
+            height: imageWidth,
+          },
+          styles.imageBackground,
+        ]}>
+        {Boolean(imageUri) && (
           <Button
             onPress={navigateToPublishPost}
             preset="ghost"
@@ -56,5 +55,12 @@ const $optionsStyle: BoxProps = {
   alignItems: 'center',
   justifyContent: 'space-between',
   paddingHorizontal: 's24',
-  paddingVertical: 's20',
+  paddingVertical: 's16',
 };
+
+const styles = StyleSheet.create({
+  imageBackground: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+});

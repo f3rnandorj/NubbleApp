@@ -7,29 +7,28 @@ import {Theme} from '@theme';
 
 const SRText = createText<Theme>();
 type SRTextProps = React.ComponentProps<typeof SRText>;
+
 export interface TextProps extends SRTextProps {
   preset?: TextVariants;
   bold?: boolean;
   italic?: boolean;
   semiBold?: boolean;
 }
-
 export function Text({
   children,
+  preset = 'paragraphMedium',
   bold,
   italic,
   semiBold,
   style,
-  preset = 'paragraphMedium',
-  ...srTextProps
+  ...sRTextProps
 }: TextProps) {
   const fontFamily = getFontFamily(preset, bold, italic, semiBold);
-
   return (
     <SRText
       color="backgroundContrast"
-      style={[style, $fontSizes[preset], {fontFamily}]}
-      {...srTextProps}>
+      style={[$fontSizes[preset], {fontFamily}, style]}
+      {...sRTextProps}>
       {children}
     </SRText>
   );
@@ -48,7 +47,6 @@ function getFontFamily(
   ) {
     return italic ? $fontFamily.boldItalic : $fontFamily.bold;
   }
-
   switch (true) {
     case bold && italic:
       return $fontFamily.boldItalic;

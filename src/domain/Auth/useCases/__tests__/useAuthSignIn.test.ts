@@ -1,4 +1,4 @@
-import {waitFor, renderHook} from 'test-utils';
+import {renderHook, waitFor} from 'test-utils';
 
 import {authService} from '../../authService';
 import {useAuthSignIn} from '../useAuthSignIn';
@@ -6,6 +6,7 @@ import {useAuthSignIn} from '../useAuthSignIn';
 import {mockedAuthCredentials} from './mockedData/mocks';
 
 const mockedSaveCredentials = jest.fn();
+
 jest.mock('@services', () => {
   const originalModule = jest.requireActual('@services');
   return {
@@ -17,7 +18,7 @@ jest.mock('@services', () => {
 });
 
 describe('useAuthSignIn', () => {
-  test('saves credentials if the sign-in successfully succeeds', async () => {
+  it('saves credentials if the sign-in successfully', async () => {
     jest
       .spyOn(authService, 'signIn')
       .mockResolvedValueOnce(mockedAuthCredentials);
@@ -27,17 +28,15 @@ describe('useAuthSignIn', () => {
       useAuthSignIn({onSuccess: mockedOnSuccess}),
     );
 
-    result.current.signIn({
-      email: 'mariajulia@coffstack.com',
-      password: 'supersecret',
-    });
+    result.current.signIn({email: 'lucas@coffstack.com', password: '123'});
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(mockedSaveCredentials).toHaveBeenCalledWith(mockedAuthCredentials);
     expect(mockedOnSuccess).toHaveBeenCalledWith(mockedAuthCredentials);
   });
-  test('calls the onError function with a message if sign-in fails', async () => {
+
+  it('calls the onError function with a message if sign-in fails', async () => {
     jest
       .spyOn(authService, 'signIn')
       .mockRejectedValue(new Error('invalid user'));
@@ -45,10 +44,7 @@ describe('useAuthSignIn', () => {
     const mockedOnError = jest.fn();
     const {result} = renderHook(() => useAuthSignIn({onError: mockedOnError}));
 
-    result.current.signIn({
-      email: 'mariajulia@coffstack.com',
-      password: 'supersecret',
-    });
+    result.current.signIn({email: 'lucas@coffstack.com', password: '123'});
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

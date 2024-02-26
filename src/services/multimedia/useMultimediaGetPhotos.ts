@@ -29,8 +29,8 @@ export function useMultimediaGetPhotos(
       const newList = query.data.pages.reduce<string[]>((prev, curr) => {
         return [...prev, ...curr.photoList];
       }, []);
-
       setList(newList);
+
       if (query.data.pages.length === 1 && onInitialLoad) {
         onInitialLoad(newList[0]);
       }

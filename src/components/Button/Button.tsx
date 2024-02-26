@@ -1,13 +1,13 @@
 import React from 'react';
 
 import {
+  ActivityIndicator,
   TouchableOpacityBox,
   TouchableOpacityBoxProps,
   Text,
-  ActivityIndicator,
 } from '@components';
 
-import {buttonPresets} from './ButtonPresets';
+import {buttonPresets} from './buttonPresets';
 
 export type ButtonPreset = 'primary' | 'outline' | 'ghost';
 
@@ -26,7 +26,6 @@ export function Button({
   ...touchableOpacityBoxProps
 }: ButtonProps) {
   const buttonPreset = buttonPresets[preset][disabled ? 'disabled' : 'default'];
-
   return (
     <TouchableOpacityBox
       testID="button"
@@ -43,6 +42,7 @@ export function Button({
       ) : (
         <Text
           preset="paragraphMedium"
+          bold
           color={buttonPreset.content.color}
           {...buttonPreset.content.textProps}>
           {title}

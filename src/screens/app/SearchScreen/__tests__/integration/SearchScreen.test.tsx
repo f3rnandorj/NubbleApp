@@ -1,11 +1,10 @@
 import React from 'react';
 
+import {authCredentialsStorage} from '@services';
 import {mockUtils, server, userMocked} from '@test';
-import {renderScreen, screen, fireEvent, act} from 'test-utils';
+import {act, fireEvent, renderScreen, screen} from 'test-utils';
 
 import {AppStack} from '@routes';
-
-import {authCredentialsStorage} from '../../../../../services/authCredentials/authCredentialsStorage';
 
 jest.unmock('@react-navigation/native');
 
@@ -28,7 +27,7 @@ afterAll(() => {
 });
 
 describe('integration: SearchScreen', () => {
-  test('Search flow', async () => {
+  test('Search Flow', async () => {
     // 1) Navigate to Search Screen
     renderScreen(<AppStack initialRouteName="SearchScreen" />);
 

@@ -1,7 +1,7 @@
 import {MutationOptions, QueryKeys} from '@infra';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
-import {postCommentService} from '@domain';
+import {postCommentService} from '../postCommentService';
 
 export function usePostCommentRemove(
   postId: number,
@@ -9,28 +9,24 @@ export function usePostCommentRemove(
 ) {
   const queryClient = useQueryClient();
 
-  const {mutate} = useMutation<string, unknown, {postCommentId: number}>({
-    mutationFn: variables => postCommentService.remove(variables.postCommentId),
-    onSuccess: data => {
+  const mutation = useMutation<string, unknown, {postCommentId: number}>({
+    mutationFn: ({postCommentId}) => postCommentService.remove(postCommentId),
+    onSuccess: message => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.PostCommentList, postId],
       });
       if (options?.onSuccess) {
-        options.onSuccess(data);
+        options.onSuccess(message);
       }
     },
-
     onError: () => {
       if (options?.onError) {
-        options?.onError(options?.errorMessage || 'Ocorreu um erro');
+        options?.onError(options.errorMessage || 'mensagem genérica');
       }
     },
   });
 
-  return {mutate};
+  return {
+    mutate: mutation.mutate,
+  };
 }
-
-// return useMutation<{postCommentId: number}, string>(
-//   ({postCommentId}) => postCommentService.remove(postCommentId),
-//   option,
-// );

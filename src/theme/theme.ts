@@ -1,6 +1,5 @@
-import {ViewStyle} from 'react-native';
-
 import {createTheme} from '@shopify/restyle';
+import {ViewStyle} from 'react-native/types';
 
 export const palette = {
   greenPrimary: '#074C4E',
@@ -13,14 +12,14 @@ export const palette = {
   redErrorLight: '#FBECEC',
 
   grayBlack: '#000000',
+  black60: 'rgba(0,0,0,0.6)',
   gray1: '#636363',
   gray2: '#8E8E8E',
   gray3: '#B3B3B3',
   gray4: '#E1E1E1',
   gray5: '#F5F5F5',
   grayWhite: '#FFFFFF',
-  white70: 'rgba(255, 255, 255, 0.7)',
-  black60: 'rgba(0,0,0,0.6)',
+  white70: 'rgba(255,255,255,0.7)',
 };
 
 export const theme = createTheme({
@@ -40,9 +39,8 @@ export const theme = createTheme({
     success: palette.greenSuccess,
     successLight: palette.greenSuccessLight,
 
-    marked: palette.carrotSecondary,
+    market: palette.carrotSecondary,
   },
-
   spacing: {
     s4: 4,
     s8: 8,
@@ -57,7 +55,6 @@ export const theme = createTheme({
     s48: 48,
     s56: 56,
   },
-
   borderRadii: {
     s8: 8,
     s12: 12,
@@ -70,7 +67,7 @@ export const theme = createTheme({
 });
 
 export const $shadowProps: ViewStyle = {
-  elevation: 15,
+  elevation: 10,
   shadowColor: '#000',
   shadowOpacity: 0.05,
   shadowRadius: 12,

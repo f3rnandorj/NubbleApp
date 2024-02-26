@@ -1,12 +1,12 @@
 import React from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {Box, Screen} from '@components';
 import {PostComment, usePostCommentList} from '@domain';
+import {useAuthCredentials} from '@services';
+
+import {Box, Screen} from '@components';
 import {useAppSafeArea} from '@hooks';
 import {AppScreenProps} from '@routes';
-
-import {useAuthCredentials} from '../../../services/authCredentials/useAuthCredentials';
 
 import {
   PostCommentBottom,
@@ -17,9 +17,8 @@ import {
 export function PostCommentScreen({
   route,
 }: AppScreenProps<'PostCommentScreen'>) {
-  const {postId} = route.params;
-  const {postAuthorId} = route.params;
-
+  const postId = route.params.postId;
+  const postAuthorId = route.params.postAuthorId;
   const {list, fetchNextPage, hasNextPage} = usePostCommentList(postId);
 
   const {userId} = useAuthCredentials();
@@ -32,7 +31,7 @@ export function PostCommentScreen({
         postId={postId}
         postComment={item}
         userId={userId}
-        userAuthorId={postAuthorId}
+        postAuthorId={postAuthorId}
       />
     );
   }
@@ -42,13 +41,13 @@ export function PostCommentScreen({
       <Box flex={1} justifyContent="space-between">
         <FlatList
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: bottom}}
           data={list}
           renderItem={renderItem}
+          contentContainerStyle={{paddingBottom: bottom}}
           ListFooterComponent={
             <PostCommentBottom
-              fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}
+              fetchNextPage={fetchNextPage}
             />
           }
         />

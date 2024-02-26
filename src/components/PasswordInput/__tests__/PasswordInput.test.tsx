@@ -5,13 +5,13 @@ import {fireEvent, render, screen} from 'test-utils';
 import {PasswordInput, IconProps} from '@components';
 
 describe('<PasswordInput />', () => {
-  test('starts with hidden password', () => {
+  it('starts with hidden password', () => {
     const mockedOnChange = jest.fn();
     render(
       <PasswordInput
         label="Password"
-        value="123456"
         placeholder="password"
+        value="123456"
         onChangeText={mockedOnChange}
       />,
     );
@@ -19,27 +19,31 @@ describe('<PasswordInput />', () => {
     const inputElement = screen.getByPlaceholderText(/password/);
 
     expect(inputElement.props.secureTextEntry).toBeTruthy();
+
+    // screen.debug();
   });
-  test('when pressing the eye icon, it should shows the password, and change to the eye off icon', () => {
+
+  test('when pressing the eye icon, it should show the password, and change to the eye off icon', () => {
     const mockedOnChange = jest.fn();
     render(
       <PasswordInput
         label="Password"
-        value="123456"
         placeholder="password"
+        value="123456"
         onChangeText={mockedOnChange}
       />,
     );
 
-    const eyeOffIcon: IconProps['name'] = 'eyeOff';
-    fireEvent.press(screen.getByTestId(eyeOffIcon));
-
     const eyeIcon: IconProps['name'] = 'eyeOn';
-    const eyeIconElement = screen.getByTestId(eyeIcon);
+    fireEvent.press(screen.getByTestId(eyeIcon));
 
-    expect(eyeIconElement).toBeTruthy();
+    const eyeOffIcon: IconProps['name'] = 'eyeOff';
+    const eyeOffIconElement = screen.getByTestId(eyeOffIcon);
+
+    expect(eyeOffIconElement).toBeTruthy();
 
     const inputElement = screen.getByPlaceholderText(/password/);
+
     expect(inputElement.props.secureTextEntry).toBeFalsy();
   });
 });

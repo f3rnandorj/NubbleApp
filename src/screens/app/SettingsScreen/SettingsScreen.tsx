@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {Button, Screen} from '@components';
 import {useAuthSignOut} from '@domain';
+
+import {Button, Screen} from '@components';
 import {AppScreenProps} from '@routes';
 
 export function SettingsScreen({}: AppScreenProps<'SettingsScreen'>) {
