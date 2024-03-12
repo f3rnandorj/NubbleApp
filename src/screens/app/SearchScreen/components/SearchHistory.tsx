@@ -1,10 +1,10 @@
 import React from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {User} from '@domain';
 import {useSearchHistory, useSearchHistoryService} from '@services';
 
 import {Box, Icon, ProfileUser, Text} from '@components';
+import {User} from '@domain';
 
 export function SearchHistory() {
   const userList = useSearchHistory();

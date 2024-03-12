@@ -1,4 +1,5 @@
 import {PageAPI} from '@api';
+
 import {AuthCredentials, PostCommentAPI, UserAPI, userAdapter} from '@domain';
 
 const POST_ID = 1;

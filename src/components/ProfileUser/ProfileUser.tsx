@@ -1,7 +1,6 @@
 import React from 'react';
 import {GestureResponderEvent} from 'react-native';
 
-import {User} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 
 import {
@@ -12,6 +11,7 @@ import {
   ProfileAvatarProps,
   Box,
 } from '@components';
+import {User} from '@domain';
 
 type ProfileUserProps = {
   user: Pick<User, 'username' | 'profileUrl' | 'id'>;

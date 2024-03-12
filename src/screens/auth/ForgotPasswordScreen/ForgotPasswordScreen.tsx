@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {useAuthRequestNewPassword} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {Button, FormTextInput, Screen, Text} from '@components';
+import {useAuthRequestNewPassword} from '@domain';
 import {useResetNavigationSuccess} from '@hooks';
 import {AuthScreenProps, AuthStackParamList} from '@routes';
 

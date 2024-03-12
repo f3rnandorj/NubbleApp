@@ -7,10 +7,10 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import {Post, usePostList} from '@domain';
 import {useScrollToTop} from '@react-navigation/native';
 
 import {PostItem, Screen} from '@components';
+import {Post, usePostList} from '@domain';
 import {AppTabScreenProps} from '@routes';
 
 import {HomeEmpty} from './components/HomeEmpty';

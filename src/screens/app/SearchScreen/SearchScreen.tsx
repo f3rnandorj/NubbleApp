@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {User, useUserSearch} from '@domain';
 import {useSearchHistoryService} from '@services';
 
 import {Icon, ProfileUser, Screen, TextInput} from '@components';
+import {User, useUserSearch} from '@domain';
 import {useDebounce} from '@hooks';
 import {AppScreenProps} from '@routes';
 

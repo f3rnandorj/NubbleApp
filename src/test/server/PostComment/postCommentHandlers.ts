@@ -1,7 +1,8 @@
 import {BASE_URL, PageAPI} from '@api';
-import {PostCommentAPI, POST_COMMENT_PATH} from '@domain';
 import {cloneDeep} from 'lodash';
 import {http, HttpResponse} from 'msw';
+
+import {PostCommentAPI, POST_COMMENT_PATH} from '@domain';
 
 import {mockedData} from './mocks';
 

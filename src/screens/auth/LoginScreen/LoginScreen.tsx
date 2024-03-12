@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {useAuthSignIn} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useToastService} from '@services';
 import {useForm} from 'react-hook-form';
@@ -12,6 +11,7 @@ import {
   FormTextInput,
   FormPasswordInput,
 } from '@components';
+import {useAuthSignIn} from '@domain';
 import {AuthScreenProps} from '@routes';
 
 import {LoginSchema, loginSchema} from './loginSchema';

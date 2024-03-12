@@ -1,9 +1,8 @@
 import React from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
 
-import {useUserGetById} from '@domain';
-
 import {ActivityIndicator, Box, ProfileAvatar, Screen, Text} from '@components';
+import {useUserGetById} from '@domain';
 import {AppScreenProps} from '@routes';
 
 export function ProfileScreen({route}: AppScreenProps<'ProfileScreen'>) {

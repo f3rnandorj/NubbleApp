@@ -1,5 +1,6 @@
-import {useAuthIsEmailAvailable, useAuthIsUsernameAvailable} from '@domain';
 import {UseFormWatch, UseFormGetFieldState} from 'react-hook-form';
+
+import {useAuthIsEmailAvailable, useAuthIsUsernameAvailable} from '@domain';
 
 import {SignUpSchema} from './signUpSchema';
 

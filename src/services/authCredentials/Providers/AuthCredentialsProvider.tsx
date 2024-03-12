@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {createContext, useState} from 'react';
 
 import {registerInterceptor} from '@api';
+
 import {AuthCredentials, authService} from '@domain';
 
 import {authCredentialsStorage} from '../authCredentialsStorage';
