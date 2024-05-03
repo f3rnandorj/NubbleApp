@@ -26,14 +26,11 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
+	 <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) precisa de acesso a camera para publicar novos posts.</string>
@@ -43,6 +40,8 @@
 	<string>Para publicar novos posts</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Panchang-Light.otf</string>
+		<string>Satoshi-Black.otf</string>
 		<string>Satoshi-BlackItalic.otf</string>
 		<string>Satoshi-Bold.otf</string>
 		<string>Satoshi-BoldItalic.otf</string>
@@ -52,7 +51,6 @@
 		<string>Satoshi-Medium.otf</string>
 		<string>Satoshi-MediumItalic.otf</string>
 		<string>Satoshi-Regular.otf</string>
-		<string>Satoshi-Black.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash.storyboard</string>

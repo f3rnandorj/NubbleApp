@@ -1,5 +1,4 @@
 import {PageAPI} from '@api';
-
 import {UserAPI} from '@domain';
 
 const user1: UserAPI = {

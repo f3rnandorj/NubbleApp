@@ -1,8 +1,9 @@
 import React from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {Button, Screen, Separator} from '@components';
 import {useAuthSignOut} from '@domain';
+
+import {Button, Screen, Separator} from '@components';
 import {AppScreenProps} from '@routes';
 
 import {MenuItem, MenuItemProps} from './components/MenuItem';
@@ -32,10 +33,10 @@ export function SettingsScreen({navigation}: AppScreenProps<'SettingsScreen'>) {
         ItemSeparatorComponent={Separator}
         ListFooterComponent={
           <Button
+            mt="s48"
             loading={isLoading}
             title="Sair da conta"
             onPress={signOut}
-            mt="s48"
           />
         }
       />

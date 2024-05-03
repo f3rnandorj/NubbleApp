@@ -60,9 +60,9 @@ export function Icon({
   const SVGIcon = iconRegistry[name];
 
   const iconProps: React.ComponentProps<typeof SVGIcon> = {
+    size,
     color: colors[color],
     fillColor: colors[fillColor],
-    size,
   };
 
   if (onPress) {

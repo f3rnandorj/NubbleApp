@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Box, BoxProps} from '@components';
+import {Box, BoxProps} from '../Box/Box';
 
 type ProgressIndicatorProps = BoxProps & {
   total: number;

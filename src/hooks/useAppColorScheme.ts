@@ -4,7 +4,7 @@ import {Appearance} from 'react-native';
 import {useSettingsService} from '@services';
 
 /**
- * Hook to listen to color scheme changes (dark mode and light mode)
+ * To listen to device color scheme changes (dark mode and light mode)
  */
 export function useAppColorScheme() {
   const {onSystemChange} = useSettingsService();
@@ -12,11 +12,14 @@ export function useAppColorScheme() {
   useEffect(() => {
     onSystemChange(Appearance.getColorScheme());
   }, [onSystemChange]);
+
   useEffect(() => {
     const subscription = Appearance.addChangeListener(preferences => {
       onSystemChange(preferences.colorScheme);
     });
 
-    return () => subscription.remove();
+    return () => {
+      subscription.remove();
+    };
   }, [onSystemChange]);
 }

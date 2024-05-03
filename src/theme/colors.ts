@@ -37,6 +37,7 @@ const lightTheme = {
 
   market: palette.carrotSecondary,
   paragraph: palette.gray1,
+
   paragraphSecondary: palette.gray1,
 
   iconColor: palette.greenPrimary,
@@ -45,7 +46,6 @@ const lightTheme = {
   onBackgroundGray1: palette.gray1,
   onBackgroundGray2: palette.gray4,
 };
-
 const darkTheme: typeof lightTheme = {
   ...palette,
   primary: palette.carrotSecondary,
@@ -64,7 +64,7 @@ const darkTheme: typeof lightTheme = {
 
   market: palette.carrotSecondary,
   paragraph: palette.grayWhite,
-  paragraphSecondary: palette.gray3,
+  paragraphSecondary: palette.gray1,
 
   iconColor: palette.greenPrimaryLight,
   iconFillColor: palette.grayBlack,
@@ -73,4 +73,4 @@ const darkTheme: typeof lightTheme = {
   onBackgroundGray2: palette.gray1,
 };
 
-export const colors = {lightTheme, darkTheme, palette};
+export const colors = {palette, lightTheme, darkTheme};

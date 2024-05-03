@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Dimensions, Image} from 'react-native';
 
+import {usePostCreate} from '@domain';
 import {useToastService} from '@services';
 
 import {Button, Screen, Text, TextInput} from '@components';
-import {usePostCreate} from '@domain';
 import {AppScreenProps} from '@routes';
 
 const IMAGE_WIDTH = Dimensions.get('screen').width / 2;
@@ -35,6 +35,7 @@ export function PublishPostScreen({
         source={{
           uri: imageUri,
         }}
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: IMAGE_WIDTH,
           height: IMAGE_WIDTH,

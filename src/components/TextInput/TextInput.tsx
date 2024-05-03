@@ -29,7 +29,7 @@ export function TextInput({
   containerProps,
   ...rnTextInputProps
 }: TextInputProps) {
-  const {colors: themeColors} = useAppTheme();
+  const {colors} = useAppTheme();
   const inputRef = useRef<RNTextInput>(null);
 
   const $textInputContainer: BoxProps = {
@@ -63,7 +63,7 @@ export function TextInput({
           <RNTextInput
             autoCapitalize="none"
             ref={inputRef}
-            placeholderTextColor={themeColors.gray2}
+            placeholderTextColor={colors.gray2}
             style={$textInputStyle}
             {...rnTextInputProps}
           />
@@ -73,7 +73,6 @@ export function TextInput({
             </Box>
           )}
         </Box>
-
         {errorMessage && (
           <Text color="error" preset="paragraphSmall" bold>
             {errorMessage}

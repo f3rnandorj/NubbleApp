@@ -4,8 +4,8 @@ const config: Config = {
   preset: 'react-native',
   setupFiles: ['<rootDir>/src/test/jestSetup.ts'],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
-  modulePathIgnorePatterns: ['.*/mockedData/.*'],
   moduleDirectories: ['node_modules', './src/test'],
+  modulePathIgnorePatterns: ['.*/mockedData/.*'],
   collectCoverageFrom: [
     'src/{components,utils,hooks,domain,screens}/**/*.{js,jsx,ts,tsx}',
   ],

@@ -9,7 +9,6 @@ export type RadioButtonItemProps = RadioButtonProps & {
   label: string;
   description?: string;
 };
-
 export function RadioButtonItem({
   label,
   description,
@@ -24,7 +23,6 @@ export function RadioButtonItem({
         <Text semiBold>{label}</Text>
         <RadioButton {...radioButtonProps} />
       </Box>
-
       {description && (
         <Text style={{width: '80%'}} color="paragraphSecondary">
           {description}

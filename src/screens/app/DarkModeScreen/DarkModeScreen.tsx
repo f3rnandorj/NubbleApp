@@ -43,7 +43,6 @@ export function DarkModeScreen({}: AppScreenProps<'DarkModeScreen'>) {
   function setSelectedItem(item: Option) {
     setThemePreference(item.themePreference);
   }
-
   return (
     <Screen canGoBack title="Modo escuro">
       <RadioButtonSelector

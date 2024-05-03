@@ -14,6 +14,7 @@ export * from './TextMessage/TextMessage';
 export * from './Toast/Toast';
 export * from './ProfileUser/ProfileUser';
 export * from './PermissionManager/PermissionManager';
-export * from './ProgressIndicator/ProgressIndicator';
 export * from './Separator/Separator';
 export * from './RadioButton';
+export * from './ProgressIndicator/ProgressIndicator';
+export * from './InfinityScrollList/InfinityScrollList';

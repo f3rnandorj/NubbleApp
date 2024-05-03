@@ -16,8 +16,7 @@ export function OnboardingStack() {
       screenOptions={{
         headerShown: false,
         fullScreenGestureEnabled: true,
-      }}
-      initialRouteName="OnboardingScreen">
+      }}>
       <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
     </Stack.Navigator>
   );
