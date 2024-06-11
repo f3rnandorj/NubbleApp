@@ -1,5 +1,6 @@
-import {AuthCredentials, authService} from '@domain';
 import axios from 'axios';
+
+import {AuthCredentials, authService} from '@domain';
 
 /**
  * use your computer network IP Address when running on a real device.

@@ -1,0 +1,101 @@
+name: Build Staging (Android and iOS) # Nome do workflow
+
+env:
+  AAB_PATH: android/app/build/outputs/bundle/release/app-release.aab # Caminho para o arquivo .aab do android
+
+on:
+  workflow_dispatch: # Evento que aciona o workflow manualmente
+
+jobs:
+  run-checks:
+    uses: ./.github/workflows/pull-request-checks.yml # Usa outro workflow para executar verificações, necessita adicionar {workflow_call:} no workflow que vai ser reutilizado
+
+  build-android:
+    needs: run-checks # Depende do job run-checks
+    runs-on: ubuntu-latest # Runner que será usado (Ubuntu)
+    timeout-minutes: 30 # Tempo limite para este job
+    defaults:
+      run:
+        shell: bash # Shell a ser usado
+        working-directory: ./android # Diretório de trabalho padrão de onde vão ser disparados os comandos
+
+    steps:
+      - uses: actions/checkout@v4 # Faz o checkout do repositório
+
+      - name: Set up Node
+        uses: actions/setup-node@v4 # Configura o Node.js
+        with:
+          node-version: '20' # Versão do Node.js a ser usada
+
+      - name: Set up Java
+        uses: actions/setup-java@v4 # Configura o Java
+        with:
+          distribution: 'zulu' # Distribuição do Java (Zulu)
+          java-version: '17' # Versão do Java a ser usada
+
+      - name: Install Packages
+        run: yarn install # Instala os pacotes do Node.js
+
+      - name: Decode Keystore
+        run: echo ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }} | base64 -d > app/upload.jks # Decodifica e salva o Keystore
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew # Torna o gradlew executável
+
+      - name: Build AAB
+        run: ./gradlew bundleRelease # Constrói o arquivo AAB
+        env:
+          NUBBLE_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }} # Define a senha do Keystore
+          NUBBLE_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }} # Define o alias da chave
+          NUBBLE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }} # Define a senha da chave
+
+      - name: Decode Google Service Account
+        run: echo ${{ secrets.ANDROID_SERVICE_ACCOUNT_BASE64 }} | base64 -d > google-service-account.json # Decodifica a conta de serviço do Google
+
+      - name: Upload to Google Play
+        run: fastlane upload_internal # Faz o upload do AAB para o Google Play usando Fastlane
+
+      - name: Upload APK to Artifact
+        uses: actions/upload-artifact@v4 # Faz o upload do artefato gerado usando uma action existente
+        with:
+          name: app-release.aab # Nome do artefato
+          path: ${{env.AAB_PATH}} # Caminho do artefato caminho completo ou variável
+          retention-days: 7 # Dias de retenção do artefato
+
+  build-ios:
+    needs: run-checks # Depende do job run-checks
+    runs-on: macos-latest # Runner que será usado (macOS)
+    timeout-minutes: 30 # Tempo limite para este job
+    defaults:
+      run:
+        shell: bash # Shell a ser usado
+        working-directory: ./ios # Diretório de trabalho padrão
+
+    steps:
+      - uses: actions/checkout@v4 # Faz o checkout do repositório
+
+      - uses: webfactory/ssh-agent@v0.9.0 # Configura o SSH
+        with:
+          ssh-private-key: ${{ secrets.CERT_REPO_SSH_KEY }} # Chave SSH para acesso ao repositório
+
+      - name: Set up Node
+        uses: actions/setup-node@v4 # Configura o Node.js
+        with:
+          node-version: '20' # Versão do Node.js a ser usada
+
+      - name: Install Packages
+        run: yarn install # Instala os pacotes do Node.js
+
+      - name: Install CocoaPods
+        run: sudo gem install cocoapods -v 1.15.2 # Instala o CocoaPods
+
+      - name: Install IOS dependencies
+        run: pod install # Instala as dependências do iOS
+
+      - name: Build and Upload to TestFlight
+        run: fastlane beta # Constrói e faz o upload para o TestFlight usando Fastlane
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }} # Senha do Match
+          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }} # ID da chave Apple
+          APPLE_KEY_ISSUER_ID: ${{ secrets.APPLE_KEY_ISSUER_ID }} # ID do emissor da chave Apple
+          APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }} # Conteúdo da chave Apple
