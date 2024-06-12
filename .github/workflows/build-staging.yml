@@ -87,7 +87,7 @@ jobs:
         run: yarn install # Instala os pacotes do Node.js
 
       - name: Install CocoaPods
-        run: sudo gem install cocoapods -v 1.15.2 # Instala o CocoaPods
+        run: sudo gem install cocoapods -v 1.15.2 # Instala o CocoaPods forçando a versão atual da maquina
 
       - name: Install IOS dependencies
         run: pod install # Instala as dependências do iOS
