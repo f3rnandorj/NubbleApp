@@ -1,101 +1,109 @@
-name: Build Staging (Android and iOS) # Nome do workflow
+name: Build Staging (Android and iOS)
 
 env:
-  AAB_PATH: android/app/build/outputs/bundle/release/app-release.aab # Caminho para o arquivo .aab do android
+  AAB_PATH: android/app/build/outputs/bundle/release/app-release.aab # Define o caminho do arquivo AAB gerado.
 
 on:
-  workflow_dispatch: # Evento que aciona o workflow manualmente
+  workflow_dispatch: # Permite disparar o workflow manualmente.
+  pull_request:
+    types:
+      - closed # Dispara o workflow quando uma pull request é fechada.
 
 jobs:
   run-checks:
-    uses: ./.github/workflows/pull-request-checks.yml # Usa outro workflow para executar verificações, necessita adicionar {workflow_call:} no workflow que vai ser reutilizado
+    # Se o evento é um disparo manual
+    # ou se a PR foi mesclada no branch de release e o nome do branch começa com 'release/'
+    if: |
+      github.event_name == 'workflow_dispatch' || 
+      (github.event.pull_request.merged == true && github.base_ref == vars.RELEASE_BRANCH && startsWith(github.head_ref, 'release/'))
+    uses: ./.github/workflows/pull-request-checks.yml # Reutiliza outro workflow que contém verificações pré-build.
 
   build-android:
-    needs: run-checks # Depende do job run-checks
-    runs-on: ubuntu-latest # Runner que será usado (Ubuntu)
-    timeout-minutes: 30 # Tempo limite para este job
+    needs: run-checks # Este job só será executado se o job 'run-checks' for concluído com sucesso.
+    runs-on: ubuntu-latest # Utiliza um ambiente Ubuntu.
+    timeout-minutes: 30 # Define um tempo limite de 30 minutos para o job.
     defaults:
       run:
-        shell: bash # Shell a ser usado
-        working-directory: ./android # Diretório de trabalho padrão de onde vão ser disparados os comandos
+        shell: bash
+        working-directory: ./android # Define o diretório de trabalho padrão como ./android
 
     steps:
-      - uses: actions/checkout@v4 # Faz o checkout do repositório
+      - uses: actions/checkout@v4 # Faz o checkout do código fonte.
 
       - name: Set up Node
-        uses: actions/setup-node@v4 # Configura o Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20' # Versão do Node.js a ser usada
+          node-version: '20' # Configura o Node.js na versão 20.
 
       - name: Set up Java
-        uses: actions/setup-java@v4 # Configura o Java
+        uses: actions/setup-java@v4
         with:
-          distribution: 'zulu' # Distribuição do Java (Zulu)
-          java-version: '17' # Versão do Java a ser usada
+          distribution: 'zulu' # Define a distribuição Java como Zulu.
+          java-version: '17' # Configura o Java na versão 17.
 
       - name: Install Packages
-        run: yarn install # Instala os pacotes do Node.js
+        run: yarn install # Instala os pacotes necessários usando Yarn.
 
       - name: Decode Keystore
-        run: echo ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }} | base64 -d > app/upload.jks # Decodifica e salva o Keystore
+        run: echo ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }} | base64 -d > app/upload.jks # Decodifica e salva a keystore Android a partir de um segredo codificado em base64.
 
       - name: Make gradlew executable
-        run: chmod +x ./gradlew # Torna o gradlew executável
+        run: chmod +x ./gradlew # Torna o script gradlew executável.
 
       - name: Build AAB
-        run: ./gradlew bundleRelease # Constrói o arquivo AAB
+        run: ./gradlew bundleRelease # Gera o Android App Bundle (AAB).
         env:
-          NUBBLE_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }} # Define a senha do Keystore
-          NUBBLE_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }} # Define o alias da chave
-          NUBBLE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }} # Define a senha da chave
+          NUBBLE_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          NUBBLE_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          NUBBLE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }} # Define variáveis de ambiente necessárias para o build.
 
       - name: Decode Google Service Account
-        run: echo ${{ secrets.ANDROID_SERVICE_ACCOUNT_BASE64 }} | base64 -d > google-service-account.json # Decodifica a conta de serviço do Google
+        run: echo ${{ secrets.ANDROID_SERVICE_ACCOUNT_BASE64 }} | base64 -d > google-service-account.json # Decodifica a conta de serviço do Google Play a partir de um segredo codificado em base64.
 
       - name: Upload to Google Play
-        run: fastlane upload_internal # Faz o upload do AAB para o Google Play usando Fastlane
+        run: fastlane upload_internal # Faz o upload do AAB para o Google Play usando Fastlane.
 
       - name: Upload APK to Artifact
-        uses: actions/upload-artifact@v4 # Faz o upload do artefato gerado usando uma action existente
+        uses: actions/upload-artifact@v4
         with:
-          name: app-release.aab # Nome do artefato
-          path: ${{env.AAB_PATH}} # Caminho do artefato caminho completo ou variável
-          retention-days: 7 # Dias de retenção do artefato
+          name: app-release.aab # Nomeia o artefato.
+          path: ${{env.AAB_PATH}} # Define o caminho do artefato.
+          retention-days: 7 # Define o tempo de retenção do artefato em 7 dias.
 
   build-ios:
-    needs: run-checks # Depende do job run-checks
-    runs-on: macos-latest # Runner que será usado (macOS)
-    timeout-minutes: 30 # Tempo limite para este job
+    needs: run-checks # Este job só será executado se o job 'run-checks' for concluído com sucesso.
+    runs-on: macos-latest # Utiliza um ambiente macOS.
+    timeout-minutes: 30 # Define um tempo limite de 30 minutos para o job.
     defaults:
       run:
-        shell: bash # Shell a ser usado
-        working-directory: ./ios # Diretório de trabalho padrão
+        shell: bash
+        working-directory: ./ios # Define o diretório de trabalho padrão como ./ios
 
     steps:
-      - uses: actions/checkout@v4 # Faz o checkout do repositório
+      - uses: actions/checkout@v4 # Faz o checkout do código fonte.
 
-      - uses: webfactory/ssh-agent@v0.9.0 # Configura o SSH
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.CERT_REPO_SSH_KEY }} # Chave SSH para acesso ao repositório
+          ssh-private-key: ${{ secrets.CERT_REPO_SSH_KEY }} # Configura uma chave SSH privada para acessar repositórios privados.
 
       - name: Set up Node
-        uses: actions/setup-node@v4 # Configura o Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20' # Versão do Node.js a ser usada
+          node-version: '20' # Configura o Node.js na versão 20.
 
       - name: Install Packages
-        run: yarn install # Instala os pacotes do Node.js
+        run: yarn install # Instala os pacotes necessários usando Yarn.
 
       - name: Install CocoaPods
-        run: sudo gem install cocoapods -v 1.15.2 # Instala o CocoaPods forçando a versão atual da maquina
+        run: sudo gem install cocoapods -v 1.15.2 # Instala o CocoaPods na versão especificada para gerenciar dependências iOS.
 
       - name: Install IOS dependencies
-        run: pod install # Instala as dependências do iOS
+        run: pod install # Instala as dependências iOS usando CocoaPods.
 
       - name: Build and Upload to TestFlight
-        run: fastlane beta # Constrói e faz o upload para o TestFlight usando Fastlane
+        run: fastlane beta # Constrói o app iOS e faz o upload para o TestFlight usando Fastlane.
         env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }} # Senha do Match
-          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }} # ID da chave Apple
-          APPLE_KEY_ISSUER_ID: ${{ secrets.APPLE_KEY_ISSUER_ID }} # ID do emissor da chave Apple
-          APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }} # Conteúdo da chave Apple
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+          APPLE_KEY_ISSUER_ID: ${{ secrets.APPLE_KEY_ISSUER_ID }}
+          APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }} # Define variáveis de ambiente necessárias para o build e upload.

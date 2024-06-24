@@ -1,0 +1,46 @@
+name: Create Pull Request to Bump Version
+
+on:
+  push:
+    tags:
+      - '**' # O workflow é acionado em qualquer push que crie uma tag, independentemente do nome da tag.
+
+permissions:
+  contents: write # Permissões para escrever conteúdos no repositório.
+  pull-requests: write # Permissões para criar e gerenciar pull requests.
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest # O job será executado em um ambiente Ubuntu mais recente.
+    timeout-minutes: 5 # Limite de tempo de execução do job para 5 minutos.
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{vars.RELEASE_BRANCH}} # Faz checkout do branch especificado pela variável RELEASE_BRANCH.
+
+      - name: Make bump-version.sh executable
+        run: chmod +x bump-version.sh # Torna o script bump-version.sh executável.
+
+      - name: Run bump-version.sh
+        run: ./bump-version.sh $GITHUB_REF_NAME # Executa o script bump-version.sh passando o nome da referência (tag).
+
+      - name: Git checkout, add, commit and push
+        # Configura o nome do usuário do git como github-actions[bot].
+        # Configura o email do usuário do git como o bot do GitHub Actions.
+        # Cria e muda para um novo branch chamado release/{nome_da_tag}.
+        # Adiciona todas as mudanças ao índice do git.
+        # Faz o commit das mudanças com uma mensagem incluindo o nome da tag.
+        # Empurra o novo branch para o repositório remoto.
+        run: |
+          git config user.name "github-actions[bot]" 
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com" 
+          git checkout -b "release/$GITHUB_REF_NAME" 
+          git add . 
+          git commit -m "bump to version $GITHUB_REF_NAME" 
+          git push origin release/$GITHUB_REF_NAME
+
+      - name: Create Release Pull Request
+        run: gh pr create -B $RELEASE_BRANCH -H release/$GITHUB_REF_NAME --title "Bump version to $GITHUB_REF_NAME" --body "Created by GitHub Actions" # Cria uma pull request do branch release/{nome_da_tag} para o branch base especificado.
+        env:
+          RELEASE_BRANCH: ${{vars.RELEASE_BRANCH}} # Define a variável de ambiente RELEASE_BRANCH.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Define a variável de ambiente GH_TOKEN com o token secreto do GitHub.
