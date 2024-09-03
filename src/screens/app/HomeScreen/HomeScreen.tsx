@@ -1,10 +1,10 @@
 import React from 'react';
 import {ListRenderItemInfo, StyleProp, ViewStyle} from 'react-native';
 
-import {Post, postService} from '@domain';
 import {QueryKeys} from '@infra';
 
 import {InfinityScrollList, PostItem, Screen} from '@components';
+import {Post, postService} from '@domain';
 import {AppTabScreenProps} from '@routes';
 
 import {HomeHeader} from './components/HomeHeader';
@@ -17,7 +17,7 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
   return (
     <Screen style={$screen}>
       <InfinityScrollList
-        queryKey={QueryKeys.PostList}
+        queryKey={[QueryKeys.PostList]}
         getList={postService.getList}
         renderItem={renderItem}
         flatListProps={{ListHeaderComponent: <HomeHeader />}}

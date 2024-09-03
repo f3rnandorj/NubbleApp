@@ -1,12 +1,12 @@
 import React from 'react';
 import {ListRenderItemInfo, Image, Dimensions, Pressable} from 'react-native';
 
-import {PostReaction, postReactionService} from '@domain';
 import {QueryKeys} from '@infra';
 import {useNavigation} from '@react-navigation/native';
 
 import {Screen, Text} from '@components';
 import {InfinityScrollList} from '@components';
+import {PostReaction, postReactionService} from '@domain';
 import {AppTabScreenProps} from '@routes';
 
 const NUM_COLUMNS = 2;
@@ -44,7 +44,7 @@ export function FavoriteScreen({}: AppTabScreenProps<'FavoriteScreen'>) {
   return (
     <Screen flex={1} title="Favoritos">
       <InfinityScrollList
-        queryKey={QueryKeys.FavoriteList}
+        queryKey={[QueryKeys.PostList]}
         getList={page => postReactionService.getMyReactions('favorite', page)}
         renderItem={renderItem}
         flatListProps={{
