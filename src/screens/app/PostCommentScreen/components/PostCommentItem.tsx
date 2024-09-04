@@ -1,10 +1,10 @@
 import React from 'react';
 import {Alert, Pressable} from 'react-native';
 
-import {PostComment, postCommentService, usePostCommentRemove} from '@domain';
 import {useToastService} from '@services';
 
 import {Box, ProfileAvatar, Text} from '@components';
+import {PostComment, postCommentService, usePostCommentRemove} from '@domain';
 
 interface Props {
   postId: number;
@@ -54,7 +54,10 @@ export function PostCommentItem({
         flexDirection="row"
         alignItems="center"
         mb="s16">
-        <ProfileAvatar imageURL={postComment.author.profileURL} />
+        <ProfileAvatar
+          imageURL={postComment.author.profileURL}
+          authorId={postComment.author.id}
+        />
         <Box ml="s12" flex={1}>
           <Text preset="paragraphSmall" bold>
             {postComment.author.userName}

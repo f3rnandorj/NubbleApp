@@ -1,7 +1,6 @@
 import React from 'react';
 import {GestureResponderEvent} from 'react-native';
 
-import {User} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 
 import {
@@ -12,6 +11,7 @@ import {
   ProfileAvatarProps,
   Box,
 } from '@components';
+import {User} from '@domain';
 
 type ProfileUserProps = {
   user: Pick<User, 'username' | 'profileUrl' | 'id'>;
@@ -43,7 +43,11 @@ export function ProfileUser({
       onPress={handleOnPress}
       {...pressableBoxProps}>
       <Box flexDirection="row" alignItems="center">
-        <ProfileAvatar {...avatarProps} imageURL={user.profileUrl} />
+        <ProfileAvatar
+          {...avatarProps}
+          imageURL={user.profileUrl}
+          authorId={user.id}
+        />
         <Text ml="s12" semiBold preset="paragraphMedium">
           {user.username}
         </Text>
