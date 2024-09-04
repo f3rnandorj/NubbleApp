@@ -2,11 +2,11 @@ import React from 'react';
 import {ListRenderItemInfo, Image, Dimensions, Pressable} from 'react-native';
 
 import {QueryKeys} from '@infra';
-import {useNavigation} from '@react-navigation/native';
 
 import {Screen, Text} from '@components';
 import {InfinityScrollList} from '@components';
 import {PostReaction, postReactionService} from '@domain';
+import {useAppNavigation} from '@hooks';
 import {AppTabScreenProps} from '@routes';
 
 const NUM_COLUMNS = 2;
@@ -18,16 +18,15 @@ const ITEM_WITH =
   (SCREEN_WIDTH - ITEM_MARGIN - SCREEN_PADDING * 2) / NUM_COLUMNS;
 
 export function FavoriteScreen({}: AppTabScreenProps<'FavoriteScreen'>) {
-  const navigation = useNavigation();
+  const navigate = useAppNavigation();
 
   function renderItem({item}: ListRenderItemInfo<PostReaction>) {
     return (
       <Pressable
         onPress={() =>
-          navigation.navigate('PostCommentScreen', {
+          navigate.toPostDetails({
             postId: item.post.id,
             postAuthorId: item.author.id,
-            showPost: true,
           })
         }>
         <Image
