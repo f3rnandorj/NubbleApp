@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {BackButton, Box, Icon, ProfileAvatar, Text} from '@components';
 import {User} from '@domain';
 
+import {ProfileButton} from './ProfileButton';
 import {ProfileMetadata} from './ProfileMetadata';
 
 type Props = {
@@ -16,38 +17,40 @@ export function ProfileHeader({user, isMyProfile, publicationCount}: Props) {
   const navigation = useNavigation();
 
   return (
-    <Box mb="s32">
+    <Box paddingHorizontal="s24">
       <Box alignItems="center">
         <ProfileAvatar
           imageURL={user?.profileUrl}
           size={100}
           borderRadius={40}
         />
-        <Text mt="s16" preset="headingMedium">
+        <Text preset="headingMedium" mt="s16">
           {user.fullName}
         </Text>
-        <Text mt="s4" preset="paragraphLarge" color="gray1">
+        <Text preset="paragraphLarge" mt="s4" color="gray1">
           @{user.username}
         </Text>
+        <ProfileMetadata
+          followersCount={user.meta.followersCount}
+          followingCount={user.meta.followingCount}
+          publicationCount={publicationCount}
+        />
+        {isMyProfile ? (
+          <Box position="absolute" alignSelf="flex-end">
+            <Icon
+              size={30}
+              name="settings"
+              onPress={() => navigation.navigate('SettingsScreen')}
+            />
+          </Box>
+        ) : (
+          <Box position="absolute" alignSelf="flex-start" left={-24}>
+            <BackButton />
+          </Box>
+        )}
       </Box>
-      <ProfileMetadata
-        followersCount={user.meta.followersCount}
-        followingCount={user.meta.followingCount}
-        publicationCount={publicationCount}
-      />
-      {isMyProfile ? (
-        <Box position="absolute" alignSelf="flex-end">
-          <Icon
-            size={30}
-            name="settings"
-            onPress={() => navigation.navigate('SettingsScreen')}
-          />
-        </Box>
-      ) : (
-        <Box position="absolute" alignSelf="flex-start" left={-24}>
-          <BackButton />
-        </Box>
-      )}
+
+      <ProfileButton isMyProfile={true} isFollowing={true} />
     </Box>
   );
 }
