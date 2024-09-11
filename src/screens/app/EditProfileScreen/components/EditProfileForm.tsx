@@ -3,16 +3,18 @@ import {ActivityIndicator, View} from 'react-native';
 
 import {useAsyncValidation} from '@form';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 
 import {FormTextInput} from '@components';
-import {User, authService} from '@domain';
+import {User, authService, useUserUpdate} from '@domain';
 
 import {EditProfileSchema, editProfileSchema} from '../editProfileSchema';
 
 type Props = {
   user: User;
   onChangeIsValid: (isValid: boolean) => void;
+  onChangeIsLoading: (isLoading: boolean) => void;
 };
 
 export type EditProfileFormRef = {
@@ -20,9 +22,19 @@ export type EditProfileFormRef = {
 };
 
 export function EditProfileFormComponent(
-  {user, onChangeIsValid}: Props,
+  {user, onChangeIsValid, onChangeIsLoading}: Props,
   ref: React.Ref<EditProfileFormRef>,
 ) {
+  const navigation = useNavigation();
+  const {isLoading, updateUser} = useUserUpdate({
+    onSuccess: () => {
+      navigation.goBack();
+    },
+    // onError: errorMessage => {
+
+    // }
+  });
+
   const {control, watch, getFieldState, formState, handleSubmit} =
     useForm<EditProfileSchema>({
       resolver: zodResolver(editProfileSchema),
@@ -46,9 +58,13 @@ export function EditProfileFormComponent(
     onChangeIsValid(formState.isValid && !usernameValidation.notReady);
   }, [formState.isValid, onChangeIsValid, usernameValidation.notReady]);
 
+  useEffect(() => {
+    onChangeIsLoading(isLoading);
+  }, [isLoading, onChangeIsLoading]);
+
   useImperativeHandle(ref, () => ({
     onSubmit: () => {
-      handleSubmit(formValues => console.log(formValues))();
+      handleSubmit(formValues => updateUser(formValues))();
     },
   }));
 
