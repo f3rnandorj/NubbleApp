@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useImperativeHandle} from 'react';
 import {ActivityIndicator, View} from 'react-native';
 
 import {useAsyncValidation} from '@form';
@@ -12,18 +12,27 @@ import {EditProfileSchema, editProfileSchema} from '../editProfileSchema';
 
 type Props = {
   user: User;
+  onChangeIsValid: (isValid: boolean) => void;
 };
 
-export function EditProfileForm({user}: Props) {
-  const {control, watch, getFieldState} = useForm<EditProfileSchema>({
-    resolver: zodResolver(editProfileSchema),
-    defaultValues: {
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-    },
-    mode: 'onChange',
-  });
+export type EditProfileFormRef = {
+  onSubmit: () => void;
+};
+
+export function EditProfileFormComponent(
+  {user, onChangeIsValid}: Props,
+  ref: React.Ref<EditProfileFormRef>,
+) {
+  const {control, watch, getFieldState, formState, handleSubmit} =
+    useForm<EditProfileSchema>({
+      resolver: zodResolver(editProfileSchema),
+      defaultValues: {
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+      mode: 'onChange',
+    });
 
   const usernameValidation = useAsyncValidation({
     watch,
@@ -32,6 +41,16 @@ export function EditProfileForm({user}: Props) {
     errorMessage: 'username indisponível',
     isAvailableFunc: authService.isUserNameAvailable,
   });
+
+  useEffect(() => {
+    onChangeIsValid(formState.isValid && !usernameValidation.notReady);
+  }, [formState.isValid, onChangeIsValid, usernameValidation.notReady]);
+
+  useImperativeHandle(ref, () => ({
+    onSubmit: () => {
+      handleSubmit(formValues => console.log(formValues))();
+    },
+  }));
 
   return (
     <View>
@@ -68,3 +87,5 @@ export function EditProfileForm({user}: Props) {
     </View>
   );
 }
+
+export const EditProfileForm = React.forwardRef(EditProfileFormComponent);
