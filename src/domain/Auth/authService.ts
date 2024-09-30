@@ -2,7 +2,7 @@ import {api} from '@api';
 
 import {authAdapter} from './authAdapter';
 import {authApi} from './authApi';
-import {AuthCredentials, SignUpData} from './authTypes';
+import {AuthCredentials, EditPasswordParams, SignUpData} from './authTypes';
 
 async function signIn(
   email: string,
@@ -42,6 +42,11 @@ function removeToken() {
   api.defaults.headers.common.Authorization = null;
 }
 
+async function updatePassword(params: EditPasswordParams): Promise<string> {
+  const {message} = await authApi.editPassword(params);
+  return message;
+}
+
 async function requestNewPassword(email: string): Promise<string> {
   const {message} = await authApi.forgotPassword({email});
   return message;
@@ -60,6 +65,7 @@ export const authService = {
   updateToken,
   removeToken,
   signUp,
+  updatePassword,
   isUserNameAvailable,
   isEmailAvailable,
   requestNewPassword,
