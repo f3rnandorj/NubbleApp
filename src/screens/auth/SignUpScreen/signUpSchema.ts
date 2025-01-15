@@ -1,4 +1,4 @@
-import {schemaTypes} from 'src/form';
+import {schemaTypes} from '@form';
 import {z} from 'zod';
 
 export const signUpSchema = z.object({
