@@ -1,10 +1,10 @@
 import React from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {PostComment, usePostCommentList, usePostGetById} from '@domain';
 import {useAuthCredentials} from '@services';
 
 import {Box, PostItem, Screen} from '@components';
+import {PostComment, usePostCommentList, usePostGetById} from '@domain';
 import {useAppSafeArea} from '@hooks';
 import {AppScreenProps} from '@routes';
 
