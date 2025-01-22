@@ -8,9 +8,10 @@ async function getToken(): Promise<string> {
 }
 
 async function getInitialNotification(): Promise<NotificationToNavigate | null> {
-  const notification = await messaging().getInitialNotification();
-  if (notification?.data) {
-    return getActionFromNotificationData(notification.data);
+  const remoteMessage = await messaging().getInitialNotification();
+
+  if (remoteMessage?.data) {
+    return getActionFromNotificationData(remoteMessage.data);
   }
   return null;
 }
@@ -31,4 +32,21 @@ function getActionFromNotificationData(data: {
   return null;
 }
 
-export const notificationService = {getToken, getInitialNotification};
+function onNotificationOpenedApp(
+  listener: (action: NotificationToNavigate | null) => void,
+): () => void {
+  const unsubscribe = messaging().onNotificationOpenedApp(remoreMessage => {
+    if (remoreMessage.data) {
+      const action = getActionFromNotificationData(remoreMessage.data);
+      listener(action);
+    }
+  });
+
+  return unsubscribe;
+}
+
+export const notificationService = {
+  getToken,
+  getInitialNotification,
+  onNotificationOpenedApp,
+};
