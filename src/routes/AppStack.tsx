@@ -3,6 +3,7 @@ import React from 'react';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import {useSaveNotificationToken} from '@domain';
 import {
   SettingsScreen,
   PostCommentScreen,
@@ -50,6 +51,8 @@ interface Props {
   initialRouteName?: keyof AppStackParamList;
 }
 export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
+  useSaveNotificationToken();
+
   return (
     <Stack.Navigator
       screenOptions={{
