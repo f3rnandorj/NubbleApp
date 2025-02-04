@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 
+import {notificationService} from '@services';
 import {useMutation} from '@tanstack/react-query';
-import {notificationService} from 'src/services/notification/notificationService';
 
 import {userService} from '../userService';
 
