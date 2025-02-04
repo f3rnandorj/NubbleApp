@@ -2,7 +2,7 @@ import React from 'react';
 
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useNotificationAction} from '@services';
+import {useNotificationAction, usePermission} from '@services';
 
 import {useSaveNotificationToken} from '@domain';
 import {
@@ -54,6 +54,7 @@ interface Props {
 export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
   useSaveNotificationToken();
   useNotificationAction();
+  usePermission('notification');
 
   return (
     <Stack.Navigator
