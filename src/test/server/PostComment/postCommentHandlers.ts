@@ -1,9 +1,10 @@
 import {BASE_URL, PageAPI} from '@api';
-import {PostCommentAPI, POST_COMMENT_PATH} from '@domain';
 import {cloneDeep} from 'lodash';
 import {http, HttpResponse} from 'msw';
 
-import {mockedData} from './mocks';
+import {PostCommentAPI, POST_COMMENT_PATH} from '@domain';
+
+import {mockedData} from '../User/mocks';
 
 const FULL_URL = `${BASE_URL}${POST_COMMENT_PATH}`;
 

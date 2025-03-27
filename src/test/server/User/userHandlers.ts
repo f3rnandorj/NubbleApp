@@ -3,7 +3,8 @@ import {http, HttpResponse} from 'msw';
 
 import {UserAPI, USER_PATH} from '@domain';
 
-import {mockedPostResponse} from './postMocked';
+import {mockedPostResponse} from '../PostComment/postMocked';
+
 import {userMocked} from './userMocked';
 
 const FULL_URL = `${BASE_URL}${USER_PATH}`;

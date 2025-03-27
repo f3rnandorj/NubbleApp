@@ -5,7 +5,7 @@ import {userHandlers} from './User/userHandlers';
 
 export const server = setupServer(...postCommentHandlers, ...userHandlers);
 
-export {mockedData as mockedPostComment} from './PostComment/mocks';
+export {mockedData as mockedPostComment} from './User/mocks';
 
 export {userMocked} from './User/userMocked';
 
